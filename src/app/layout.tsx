@@ -7,7 +7,7 @@ import Footer from '@/components/Footer'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Eole Cervenka - Portfolio',
+  title: 'Eole Cervenka',
   description: 'AI/ML Engineer - Portfolio and Resume',
   icons: {
     icon: '/favicon.svg',
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     apple: '/favicon.svg',
   },
   openGraph: {
-    title: 'Eole Cervenka - Portfolio',
+    title: 'Eole Cervenka',
     description: 'AI/ML Engineer - Portfolio and Resume',
     type: 'website',
   },
