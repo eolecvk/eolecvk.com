@@ -7,8 +7,8 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project }: ProjectCardProps) {
   return (
-    <Link href={`/work/${project.slug}`} className="group block">
-      <article className="border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden hover:border-accent transition-colors">
+    <Link href={`/work/${project.slug}`} className="group block h-full">
+      <article className="h-full border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden hover:border-accent transition-colors flex flex-col">
         {project.thumbnail && (
           <div className="aspect-video overflow-hidden bg-gray-100 dark:bg-gray-800">
             <img
@@ -18,13 +18,15 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             />
           </div>
         )}
-        <div className="p-6">
+        <div className="p-6 flex flex-col flex-grow">
           <h3 className="text-xl font-semibold mb-2 group-hover:text-accent transition">
             {project.title}
           </h3>
-          <p className="text-gray-600 dark:text-gray-400 mb-4">{project.intro || project.description}</p>
+          <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3 flex-grow">
+            {project.intro || project.description}
+          </p>
           {project.tags && project.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 mt-auto">
               {project.tags.map((tag) => (
                 <span
                   key={tag}
