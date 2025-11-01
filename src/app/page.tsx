@@ -20,13 +20,13 @@ export default function Home() {
               href="/work"
               className="px-6 py-3 bg-accent text-dark font-semibold rounded hover:opacity-90 transition"
             >
-              View Portfolio
+              Portfolio
             </Link>
             <Link
               href="/resume"
               className="px-6 py-3 border border-gray-300 dark:border-gray-700 rounded hover:border-accent transition"
             >
-              View Resume
+              Resume
             </Link>
           </div>
         </div>
