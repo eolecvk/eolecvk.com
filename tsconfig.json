@@ -1,23 +1,28 @@
 {
-  "extends": "astro/tsconfigs/base",
   "compilerOptions": {
-    "strictNullChecks": true,
-    "verbatimModuleSyntax": true,
-
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "es6"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "baseUrl": ".",
     "paths": {
-      "@components/*": ["src/components/*"],
-      "@pages/*": ["src/pages/*"],
-      "@layouts/*": ["src/layouts/*"],
-      "@util/*": ["src/util/*"],
-      "@cms/*": ["src/cms/*"],
-      "@icons/*": ["src/icons/*"],
-      "@src/*": ["src/*"],
-      "@assets/*": ["src/assets/*"],
-      "@locales/*": ["src/locales/*"]
-    },
-
-    "jsx": "preserve",
-    "types": ["vue3-toastify/global"]
-  }
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "**/*.mdx"],
+  "exclude": ["node_modules"]
 }
