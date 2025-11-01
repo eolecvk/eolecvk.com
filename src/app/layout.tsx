@@ -9,6 +9,11 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'Eole Cervenka - Portfolio',
   description: 'AI/ML Engineer - Portfolio and Resume',
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
   openGraph: {
     title: 'Eole Cervenka - Portfolio',
     description: 'AI/ML Engineer - Portfolio and Resume',
