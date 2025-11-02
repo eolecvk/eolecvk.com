@@ -31,9 +31,9 @@ date: 2025-07-12T10:31:47.439Z
 
 The project main design principles are:
 
-    ✅ **Simplicity**: for adoption by non-technical users  
-    ✅ **Data ownership**: self-hosted infrastructure on client premises  
-    ✅ **Vendor independence**: open API stack with no SaaS lock-in  
+- **Simplicity**: for adoption by non-technical users
+- **Data ownership**: self-hosted infrastructure on client premises
+- **Vendor independence**: open API stack with no SaaS lock-in  
 
 Code and documentation available:  
 [Github — CRM Workflow](https://github.com/eolecvk/trustlink-workflow)
@@ -41,11 +41,11 @@ Code and documentation available:
 
 ### Context and Motivation
 
-The legal office manages hundreds of ongoing client matters, including:  
+The legal office manages hundreds of ongoing client matters, including:
 
-    ▪️ Intellectual property (IP) filings (logos, patents)  
-    ▪️ Company registrations  
-    ▪️ Tax reporting and compliance    
+- Intellectual property (IP) filings (logos, patents)
+- Company registrations
+- Tax reporting and compliance    
 
 Each request type follows a multi-step workflow, for example:
 ```
@@ -59,39 +59,38 @@ initial consultation → contract sent → ... → invoice paid
 
 ### Design Philosophy
 
+**Human-in-the-loop**: AI augments but doesn't replace staff. Humans validate and refine updates.
 
-    🔁 **Human-in-the-loop**: AI augments but doesn’t replace staff. Humans validate and refine updates.
+**Built for AI**: From day one, the system was architected for AI integration—well-documented, API-first, and fully observable.
 
-    🔧 **Built for AI**: From day one, the system was architected for AI integration—well-documented, API-first, and fully observable.
-
-    🧩 **Hackable CRM**: Lightweight, REST-based, with a clean UI and open source deployment.
+**Hackable CRM**: Lightweight, REST-based, with a clean UI and open source deployment.
 
 
 ### Features
 
-✅ Already Implemented  
-    ▪️Extract client and opportunity information from incoming emails  
-    ▪️Automatically generate notes and tasks linked to each case based on internal workflow rules  
+**Already Implemented**
+- Extract client and opportunity information from incoming emails
+- Automatically generate notes and tasks linked to each case based on internal workflow rules
 
-🔜 In Progress    
-    ▪️Summarize case files – for internal collaboration and client updates  
-    ▪️CRM AI chatbot – conversational access to CRM records (e.g. “What’s the status of Client A's trademark?”)  
-    ▪️User Role Management – integrate MS & CRM user permissions for secure multi-user collaboration
+**In Progress**
+- Summarize case files – for internal collaboration and client updates
+- CRM AI chatbot – conversational access to CRM records (e.g. "What's the status of Client A's trademark?")
+- User Role Management – integrate MS & CRM user permissions for secure multi-user collaboration
 
 
 ### Architecture & Stack
 
-🧠 **LLM Engine**  
+**LLM Engine**
 Connects to the CRM, parses emails, makes decisions using tools like `read_email()`, `create_task()`
-(e.g. “Create note for client X about signed contract”)
+(e.g. "Create note for client X about signed contract")
 
-📩 **MS Graph API**  
+**MS Graph API**
 Fetches emails, calendars, and SharePoint data
 
-📂 **Twenty CRM API**  
+**Twenty CRM API**
 Writes updates to CRM about clients, opportunities, and creates notes, and tasks
 
-🖥️ **Self-hosted frontend**  
+**Self-hosted frontend**
 Twenty CRM self-hosted app, a lightweight CRM frontend supporting multi-user authentication
 
 
