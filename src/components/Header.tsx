@@ -31,7 +31,7 @@ export default function Header() {
               isActive('/work') ? 'text-accent' : 'hover:text-accent'
             }`}
           >
-            Portfolio
+            Projects
           </Link>
           <Link
             href="/resume"

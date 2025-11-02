@@ -3,7 +3,7 @@ import ProjectCard from '@/components/ProjectCard'
 import Container from '@/components/Container'
 
 export const metadata = {
-  title: 'Portfolio - Eole Cervenka',
+  title: 'Projects - Eole Cervenka',
   description: 'AI/ML Engineering Projects',
 }
 
@@ -13,7 +13,7 @@ export default function WorkPage() {
   return (
     <Container maxWidth="default" className="py-section-desktop">
       <div className="mb-12">
-        <h1 className="text-4xl font-bold mb-4">Portfolio</h1>
+        <h1 className="text-4xl font-bold mb-4">Projects</h1>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
