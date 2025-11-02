@@ -1,7 +1,9 @@
 import Link from 'next/link'
 import Container from '@/components/Container'
+import { getAllProjects } from '@/lib/mdx'
 
 export default function Home() {
+  const projects = getAllProjects()
   return (
     <>
       <div className="min-h-[80vh] flex items-center">
@@ -21,7 +23,7 @@ export default function Home() {
                 href="/work"
                 className="px-6 py-3 bg-accent text-dark font-semibold rounded hover:opacity-90 transition"
               >
-                Portfolio
+                Projects
               </Link>
               <Link
                 href="/resume"
@@ -37,51 +39,41 @@ export default function Home() {
       <Container maxWidth="narrow" className="py-section-desktop">
         <div>
           <h2 className="text-3xl font-bold mb-8">Articles and Projects</h2>
-          <div className="space-y-6 mb-8">
-            <Link
-              href="/work/stable-diffusion-benchmark"
-              className="block group"
-            >
-              <div className="flex justify-between items-start gap-4">
-                <div>
-                  <h3 className="text-xl font-semibold group-hover:text-accent transition">
-                    "All You Need Is One GPU" — Inference Benchmark for Stable Diffusion
-                  </h3>
-                </div>
-                <span className="text-gray-500 dark:text-gray-400 whitespace-nowrap text-sm">
-                  2022
-                </span>
-              </div>
-            </Link>
+          <div className="space-y-4 mb-8">
+            {projects.map((project) => {
+              // Use different thumbnail for homepage display
+              const homepageThumbnail = project.slug === 'stable-diffusion-benchmark'
+                ? '/images/projects/stable-diffusion-benchmark-homepage.png'
+                : project.thumbnail
 
-            <Link
-              href="/work/stable-diffusion-finetuning"
-              className="block group"
-            >
-              <div className="flex justify-between items-start gap-4">
-                <div>
-                  <h3 className="text-xl font-semibold group-hover:text-accent transition">
-                    "Text-to-naruto" — A Stable Diffusion Finetuning Demo
-                  </h3>
-                </div>
-                <span className="text-gray-500 dark:text-gray-400 whitespace-nowrap text-sm">
-                  2022
-                </span>
-              </div>
-            </Link>
-
-            <div className="block">
-              <div className="flex justify-between items-start gap-4">
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-400 dark:text-gray-600">
-                    "GiftHub" — Collective Decision-Making Tool for Funding Distribution
-                  </h3>
-                </div>
-                <span className="text-gray-500 dark:text-gray-400 whitespace-nowrap text-sm">
-                  2021
-                </span>
-              </div>
-            </div>
+              return (
+                <Link
+                  key={project.slug}
+                  href={`/work/${project.slug}`}
+                  className="block group"
+                >
+                  <div className="flex items-center gap-4">
+                    {homepageThumbnail && (
+                      <div className="w-16 h-16 flex-shrink-0 rounded overflow-hidden bg-gray-100 dark:bg-gray-800">
+                        <img
+                          src={homepageThumbnail}
+                          alt={project.title}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                        />
+                      </div>
+                    )}
+                    <div className="flex-grow min-w-0">
+                      <h3 className="text-lg font-semibold group-hover:text-accent transition leading-tight">
+                        {project.title}
+                      </h3>
+                    </div>
+                    <span className="text-gray-500 dark:text-gray-400 whitespace-nowrap text-sm">
+                      {new Date(project.date).getFullYear()}
+                    </span>
+                  </div>
+                </Link>
+              )
+            })}
           </div>
 
           <Link

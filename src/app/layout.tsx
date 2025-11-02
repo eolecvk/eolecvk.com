@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Eole Cervenka',
-  description: 'AI/ML Engineer - Portfolio and Resume',
+  description: 'AI/ML Engineer - Projects and Resume',
   icons: {
     icon: '/favicon.svg',
     shortcut: '/favicon.svg',
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Eole Cervenka',
-    description: 'AI/ML Engineer - Portfolio and Resume',
+    description: 'AI/ML Engineer - Projects and Resume',
     type: 'website',
   },
 }
