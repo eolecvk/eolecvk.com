@@ -22,11 +22,11 @@ export default function ResumePage() {
   const resume = getResumeContent()
 
   return (
-    <Container maxWidth="default" className="py-section-desktop">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex justify-between items-start mb-16">
+    <Container maxWidth="narrow" className="py-section-desktop">
+      <div>
+        <div className="flex justify-between items-start mb-12">
           <div>
-            <h1 className="text-4xl lg:text-5xl font-bold mb-4">{resume.metadata.title}</h1>
+            <h1 className="text-4xl lg:text-5xl font-bold mb-6">{resume.metadata.title}</h1>
             <p className="text-xl text-gray-600 dark:text-gray-400">
               {resume.metadata.description}
             </p>
@@ -43,7 +43,7 @@ export default function ResumePage() {
           </a>
         </div>
 
-        <div className="prose prose-lg dark:prose-invert mx-auto">
+        <div className="prose prose-lg dark:prose-invert prose-headings:first:mt-0">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeHighlight]}
