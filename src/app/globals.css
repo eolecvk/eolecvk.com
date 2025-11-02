@@ -6,6 +6,45 @@
   body {
     @apply bg-white dark:bg-dark text-gray-900 dark:text-gray-100;
   }
+
+  /* Ensure code blocks have proper colors */
+  .prose pre {
+    @apply bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100;
+  }
+
+  .prose pre code {
+    @apply bg-transparent text-gray-900 dark:text-gray-100;
+  }
+
+  .prose code {
+    @apply bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100;
+  }
+
+  /* Syntax highlighting colors for light mode */
+  .prose pre code .hljs-keyword,
+  .prose pre code .hljs-selector-tag,
+  .prose pre code .hljs-built_in {
+    @apply text-purple-600 dark:text-purple-400;
+  }
+
+  .prose pre code .hljs-string,
+  .prose pre code .hljs-attr {
+    @apply text-green-600 dark:text-green-400;
+  }
+
+  .prose pre code .hljs-number,
+  .prose pre code .hljs-literal {
+    @apply text-blue-600 dark:text-blue-400;
+  }
+
+  .prose pre code .hljs-comment {
+    @apply text-gray-500 dark:text-gray-400 italic;
+  }
+
+  .prose pre code .hljs-function,
+  .prose pre code .hljs-title {
+    @apply text-indigo-600 dark:text-indigo-400;
+  }
 }
 
 /* Custom animations */
