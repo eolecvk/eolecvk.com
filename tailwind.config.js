@@ -85,13 +85,13 @@ module.exports = {
             h2: {
               fontSize: '1.875rem', // 30px
               lineHeight: '1.3',
-              marginTop: '3rem',
+              marginTop: '2rem',
               marginBottom: '1rem',
             },
             h3: {
               fontSize: '1.5rem', // 24px
               lineHeight: '1.4',
-              marginTop: '2.5rem',
+              marginTop: '2rem',
               marginBottom: '0.75rem',
             },
             h4: {

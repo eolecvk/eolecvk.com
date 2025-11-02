@@ -34,15 +34,15 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
   }
 
   return (
-    <Container maxWidth="default" className="py-section-desktop">
-      <article className="max-w-4xl mx-auto">
-        <header className="mb-16">
+    <Container maxWidth="narrow" className="py-section-desktop">
+      <article>
+        <header>
           <h1 className="text-4xl lg:text-5xl font-bold mb-6">{project.metadata.title}</h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+          <p className="text-xl text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
             {project.metadata.intro || project.metadata.description}
           </p>
           {project.metadata.tag && project.metadata.tag.length > 0 && (
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 mb-12">
               {project.metadata.tag.map((tag) => (
                 <span
                   key={tag}
@@ -55,7 +55,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
           )}
         </header>
 
-        <div className="prose prose-lg dark:prose-invert mx-auto">
+        <div className="prose prose-lg dark:prose-invert prose-headings:first:mt-0">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeRaw, rehypeHighlight]}
