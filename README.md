@@ -1,1 +1,1 @@
-[ eolecvk.github.io/ ](https://eolecvk.github.io/)
+[ eolecvk.com/ ](https://eolecvk.com/)
