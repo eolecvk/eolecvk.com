@@ -7,7 +7,7 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project }: ProjectCardProps) {
   return (
-    <Link href={`/work/${project.slug}`} className="group block h-full">
+    <Link href={`/projects/${project.slug}`} className="group block h-full">
       <article className="h-full border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden hover:border-accent transition-colors flex flex-col">
         {project.thumbnail && (
           <div className="aspect-video overflow-hidden bg-gray-100 dark:bg-gray-800">
