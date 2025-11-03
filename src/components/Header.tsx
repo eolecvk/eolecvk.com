@@ -26,9 +26,9 @@ export default function Header() {
         </Link>
         <div className="flex gap-6">
           <Link
-            href="/work"
+            href="/projects"
             className={`transition ${
-              isActive('/work') ? 'text-accent' : 'hover:text-accent'
+              isActive('/projects') ? 'text-accent' : 'hover:text-accent'
             }`}
           >
             Projects
@@ -40,6 +40,14 @@ export default function Header() {
             }`}
           >
             Resume
+          </Link>
+          <Link
+            href="/about"
+            className={`transition ${
+              isActive('/about') ? 'text-accent' : 'hover:text-accent'
+            }`}
+          >
+            About
           </Link>
           <a
             href="https://creativerush.me/"
