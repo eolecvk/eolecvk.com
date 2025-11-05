@@ -1,10 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 export default function Header() {
   const pathname = usePathname()
+  const router = useRouter()
 
   const isActive = (path: string) => {
     if (path === '/') {
@@ -13,9 +14,24 @@ export default function Header() {
     return pathname.startsWith(path)
   }
 
+  const handleProjectsClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault()
+
+    if (pathname === '/') {
+      // Already on homepage, just scroll to projects
+      const projectsSection = document.getElementById('projects')
+      if (projectsSection) {
+        projectsSection.scrollIntoView({ behavior: 'smooth' })
+      }
+    } else {
+      // Navigate to homepage with projects hash
+      router.push('/#projects')
+    }
+  }
+
   return (
     <header className="border-b border-gray-200 dark:border-gray-800">
-      <nav className="max-w-content-wide mx-auto px-4 py-4 flex items-center justify-between">
+      <nav className="px-6 py-4 flex items-center justify-between">
         <Link
           href="/"
           className={`text-2xl font-bold tracking-wider transition ${
@@ -24,15 +40,16 @@ export default function Header() {
         >
           EC
         </Link>
-        <div className="flex gap-6">
-          <Link
-            href="/projects"
-            className={`transition ${
-              isActive('/projects') ? 'text-accent' : 'hover:text-accent'
+        <div className="flex gap-6 text-base">
+          <a
+            href="/#projects"
+            onClick={handleProjectsClick}
+            className={`transition cursor-pointer ${
+              pathname === '/' ? 'text-accent' : 'hover:text-accent'
             }`}
           >
             Projects
-          </Link>
+          </a>
           <Link
             href="/resume"
             className={`transition ${
@@ -41,21 +58,13 @@ export default function Header() {
           >
             Resume
           </Link>
-          <Link
-            href="/about"
-            className={`transition ${
-              isActive('/about') ? 'text-accent' : 'hover:text-accent'
-            }`}
-          >
-            About
-          </Link>
           <a
             href="https://creativerush.me/"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-accent transition"
           >
-            Media lab ↗
+            Media Lab ↗
           </a>
         </div>
       </nav>

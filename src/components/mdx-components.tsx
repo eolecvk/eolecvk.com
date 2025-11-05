@@ -27,13 +27,13 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       </code>
     ),
     pre: ({ children }) => (
-      <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto mb-4">
+      <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded overflow-x-auto mb-4">
         {children}
       </pre>
     ),
     img: ({ src, alt }) => (
       <div className="my-8">
-        <img src={src} alt={alt || ''} className="w-full rounded-lg" />
+        <img src={src} alt={alt || ''} className="w-full rounded" />
       </div>
     ),
     blockquote: ({ children }) => (
