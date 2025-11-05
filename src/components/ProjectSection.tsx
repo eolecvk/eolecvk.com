@@ -39,6 +39,11 @@ export default function ProjectSection({ title, projects, showAll = false, featu
                   <h3 className="text-xl font-semibold group-hover:text-accent transition mb-1">
                     {project.title}
                   </h3>
+                  {project.tagline && (
+                    <p className="text-sm text-gray-500 dark:text-gray-500 mb-1 italic">
+                      {project.tagline}
+                    </p>
+                  )}
                   <p className="text-gray-600 dark:text-gray-400 line-clamp-2">
                     {project.intro || project.description}
                   </p>

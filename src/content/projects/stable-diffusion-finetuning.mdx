@@ -1,9 +1,10 @@
 ---
 tag:
   - stable-diffusion
-title: Stable diffusion fine-tuning demos
+title: Stable Diffusion Finetuning
+tagline: "Custom model training for specialized image generation"
 description: Teaching new styles and new identities to text-to-image model stable-diffusion
-intro: Teaching new styles and new identities to text-to-image model stable-diffusion
+intro: "Custom model training for specialized image generation"
 features:
   - name: Teaching stable-diffusion Naruto style (HuggingFace)
     value: https://huggingface.co/lambdalabs/sd-naruto-diffusers
@@ -21,8 +22,9 @@ date: 2023-09-03T10:31:47.439Z
 category: Image/Video
 ---
 
-# Training stable-diffusion to generate new styles
-
+<div style="border: 2px solid #d97706; border-radius: 6px; padding: 16px; margin-bottom: 24px; background-color: #fef3c7;">
+  <strong style="color: #92400e;">⚠️ Note:</strong> <span style="color: #78350f;">This article is about fine-tuning the original Stable Diffusion model (<a href="https://github.com/CompVis/stable-diffusion" style="color: #b45309; text-decoration: underline;">CompVis/stable-diffusion</a>) which is no longer state-of-the-art.</span>
+</div>
 
 We present a couple examples of finetuning the `text-to-image` stable-diffusion model to learn new styles (e: "Naruto", "Avatar"). Note that a similar methodology can be applied to learn the representation of a new object or identity to the base model.
 
@@ -30,14 +32,14 @@ We present a couple examples of finetuning the `text-to-image` stable-diffusion 
 
 **Training data**
 
-The first step is to collect hundreds of data sample for the style to learn.
+The first step is to collect hundreds of data samples for the style to learn.
 The original images were obtained from narutopedia.com and captioned with the pre-trained [BLIP model](https://github.com/salesforce/BLIP).
 
 For each row the dataset contains image and text keys. image is a varying size `PIL` `jpeg`, and `text` is the accompanying text caption.
 
 With the recent progresses of multimodal LLMs, I would probably use that instead for building labelled datasets from raw images.
 
-The [Naruto dataset can be found on HuggingFace](https://huggingface.co/datasets/lambdalabs/naruto-blip-captions) for reference.
+The [Naruto dataset can be found on HuggingFace](https://huggingface.co/datasets/lambdalabs/naruto-blip-captions) with 1.22k images for reference.
 
 <br />
 <p align="center">
@@ -45,7 +47,111 @@ The [Naruto dataset can be found on HuggingFace](https://huggingface.co/datasets
 </p>
 <br />
 
+**Training Setup**
+
+For the Naruto-style model, we used the following configuration:
+
+- **Infrastructure**: 2x A6000 GPUs on Lambda GPU Cloud
+- **Training Duration**: Approximately 12 hours (~30,000 training steps)
+- **Cost**: Approximately $20
+- **Dataset Size**: 1.22k BLIP-captioned Naruto images
+- **Base Model**: Built upon Justin Pinkney's Pokemon Stable Diffusion model
+
+**Prompt Engineering**
+
+One key finding from this project is that prompt engineering significantly helps produce compelling and consistent Naruto-style portraits. Effective prompts include phrasing like:
+
+- `"[subject] ninja portrait"`
+- `"[subject] in the style of Naruto"`
+
+These prompt patterns generate more authentic character results with characteristic headbands and costumes that are iconic to the Naruto aesthetic.
+
+<br />
+<p align="center">
+  <img src="https://staticassetbucket.s3.us-west-1.amazonaws.com/GOT_naruto.png" alt="Game of Thrones characters in Naruto style" />
+</p>
+<p align="center"><em>Game of Thrones characters transformed to Naruto style</em></p>
+<br />
+
+The difference between basic prompts and optimized prompts is significant. For example:
+
+<br />
+<p align="center">
+  <img src="https://staticassetbucket.s3.us-west-1.amazonaws.com/bill_gates_vanilla.png" alt="Bill Gates basic prompt" style="width: 45%; display: inline-block; margin-right: 2%;" />
+  <img src="https://staticassetbucket.s3.us-west-1.amazonaws.com/bill_gates_ninja.png" alt="Bill Gates with prompt engineering" style="width: 45%; display: inline-block;" />
+</p>
+<p align="center"><em>Left: "Bill Gates" (basic prompt) | Right: "Bill Gates ninja portrait" (optimized prompt)</em></p>
+<br />
+
+**Usage**
+
+The model can be loaded using the Hugging Face diffusers library:
+
+```python
+from diffusers import StableDiffusionPipeline
+import torch
+
+model_id = "lambdalabs/sd-naruto-diffusers"
+pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+pipe = pipe.to("cuda")
+
+prompt = "Yoda ninja portrait"
+image = pipe(prompt).images[0]
+```
+
+The [Naruto-style model is available on HuggingFace](https://huggingface.co/lambdalabs/sd-naruto-diffusers) and has been used by the community in over 95 demonstration spaces.
+
 
 ## Stable diffusion finetuning with dreambooth
 
-The second method uses [dreambooth](https://dreambooth.github.io/), a finetuning implementation of stable diffusion developped by Google.
+The second method uses [dreambooth](https://dreambooth.github.io/), a finetuning implementation of stable diffusion developed by Google.
+
+DreamBooth is a technique that allows you to fine-tune text-to-image models with just a small set of images (as few as 3-5 images) to teach the model a new concept, style, or specific object/person. Unlike the previous approach which required hundreds of training samples, DreamBooth achieves impressive results with minimal data.
+
+<br />
+<p align="center">
+  <img src="https://staticassetbucket.s3.us-west-1.amazonaws.com/avatar_grid.png" alt="Avatar-style generated images grid" />
+</p>
+<p align="center"><em>Examples of Avatar-style images generated using DreamBooth fine-tuning</em></p>
+<br />
+
+**Training Setup**
+
+For the Avatar-style model, we used the following configuration:
+
+- **Base Model**: Stable Diffusion v1.5
+- **Training Data**: 60 input images (512x512 pixels) of Avatar characters
+- **Training Method**: DreamBooth fine-tuning with prior preservation
+- **Class Token**: "avatarart style" - a unique identifier used in prompts
+- **Prior Preservation Class**: "Person" - prevents the model from forgetting how to generate regular people
+- **Hardware**: 2x A6000 GPUs on Lambda GPU Cloud
+- **Training Duration**: 700 steps with batch size 4 (approximately 2 hours)
+- **Estimated Cost**: ~$4
+
+**Key Concept: Prior Preservation**
+
+One of the innovations of DreamBooth is "prior preservation loss". This technique prevents the model from overfitting to the small training dataset and forgetting its original capabilities. By training on both the new concept (Avatar style) and examples of the broader class (Person), the model maintains its general knowledge while learning the specific style.
+
+**Usage**
+
+To generate images with the fine-tuned model, use prompts that incorporate the style token:
+
+```
+"Yoda, avatarart style"
+```
+
+The model can be loaded using the Hugging Face diffusers library:
+
+```python
+from diffusers import StableDiffusionPipeline
+import torch
+
+model_id = "lambdalabs/dreambooth-avatar"
+pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+pipe = pipe.to("cuda")
+
+prompt = "Yoda, avatarart style"
+image = pipe(prompt, guidance_scale=7.5).images[0]
+```
+
+The [Avatar-style model is available on HuggingFace](https://huggingface.co/lambdalabs/dreambooth-avatar) and has been used by the community in over 10 demonstration spaces.

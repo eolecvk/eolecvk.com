@@ -1,6 +1,7 @@
 export interface Project {
   slug: string
   title: string
+  tagline?: string
   description: string
   intro: string
   thumbnail: string
@@ -12,6 +13,7 @@ export interface Project {
 
 export interface ProjectMetadata {
   title: string
+  tagline?: string
   description: string
   intro: string
   thumbnail: string

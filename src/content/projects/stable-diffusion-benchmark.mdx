@@ -1,9 +1,10 @@
 ---
 tag:
   - stable-diffusion
-title: Stable Diffusion Benchmark (cited by Google Research)
+title: All You Need is One GPU
+tagline: "Inference Benchmark for Stable Diffusion (cited by Google Research)"
 description: "We benchmark Stable Diffusion inference on GPUs and CPUs including A100, 3090, and more—measuring speed, memory, throughput, and output quality."
-intro: "All You Need Is One GPU"
+intro: "Inference Benchmark for Stable Diffusion (cited by Google Research)"
 features:
   - name: Author
     value: Eole Cervenka
@@ -22,16 +23,17 @@ current: true
 category: Image/Video
 ---
 
-# All You Need Is One GPU: Inference Benchmark for Stable Diffusion
+<div style="border: 2px solid #d97706; border-radius: 6px; padding: 16px; margin-bottom: 24px; background-color: #fef3c7;">
+  <strong style="color: #92400e;">⚠️ Note:</strong> <span style="color: #78350f;">This article is about the original Stable Diffusion model (<a href="https://github.com/CompVis/stable-diffusion" style="color: #b45309; text-decoration: underline;">CompVis/stable-diffusion</a>) which is no longer state-of-the-art.</span>
+</div>
+
+What do I need for running the Stable Diffusion text-to-image model? Can a gaming card do the job, or should I get a fancy A100? What if I only have a CPU?
 
 <br />
 <p align="center">
-  <img src="/images/projects/sd-bench-1.png" alt="Stable Diffusion Benchmark" />
+  <img src="/images/projects/sd-bench-1.png" alt="Stable Diffusion Benchmark" style="width: 85%;" />
 </p>
 <br />
-
-
-What do I need for running the state-of-the-art text-to-image model? Can a gaming card do the job, or should I get a fancy A100? What if I only have a CPU?
 
 To shed light on these questions, we present an [inference benchmark](https://github.com/LambdaLabsML/lambda-diffusers/tree/eole/benchmarking#benchmarking-inference) of [Stable Diffusion](https://huggingface.co/CompVis/stable-diffusion) on different GPUs and CPUs. These are our findings:
 
