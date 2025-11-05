@@ -22,6 +22,11 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           <h3 className="text-xl font-semibold mb-2 group-hover:text-accent transition">
             {project.title}
           </h3>
+          {project.tagline && (
+            <p className="text-sm text-gray-500 dark:text-gray-500 mb-2 italic">
+              {project.tagline}
+            </p>
+          )}
           <p className="text-gray-600 dark:text-gray-400 line-clamp-3">
             {project.intro || project.description}
           </p>

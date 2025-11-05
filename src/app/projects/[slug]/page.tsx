@@ -38,21 +38,9 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
       <article>
         <header>
           <h1 className="text-4xl lg:text-5xl font-bold mb-6">{project.metadata.title}</h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
+          <p className="text-xl text-gray-600 dark:text-gray-400 mb-12 leading-relaxed">
             {project.metadata.intro || project.metadata.description}
           </p>
-          {project.metadata.tag && project.metadata.tag.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-12">
-              {project.metadata.tag.map((tag) => (
-                <span
-                  key={tag}
-                  className="text-sm px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-md"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
         </header>
 
         <div className="prose prose-lg dark:prose-invert prose-headings:first:mt-0">

@@ -7,16 +7,12 @@ import ProjectsContainer from '@/components/ProjectsContainer'
 export default function Home() {
   const allProjects = getAllProjects()
 
-  // Sort projects by current status (current first) within each category
-  const sortByCurrent = (projects: typeof allProjects) =>
-    projects.sort((a, b) => {
-      if (a.current && !b.current) return -1
-      if (!a.current && b.current) return 1
-      return 0
-    })
-
-  const audiovisualProjects = sortByCurrent(allProjects.filter(p => p.category === 'Image/Video'))
-  const llmProjects = sortByCurrent(allProjects.filter(p => p.category === 'LLM applications'))
+  // Sort all projects: starred/current first, then by date
+  const sortedProjects = allProjects.sort((a, b) => {
+    if (a.current && !b.current) return -1
+    if (!a.current && b.current) return 1
+    return 0
+  })
 
   return (
     <>
@@ -95,8 +91,7 @@ export default function Home() {
       {/* Projects Section */}
       <Container maxWidth="narrow" className="pt-4 pb-16 md:pt-8 md:pb-20" id="projects">
         <ProjectsContainer
-          audiovisualProjects={audiovisualProjects}
-          llmProjects={llmProjects}
+          allProjects={sortedProjects}
         />
       </Container>
     </>
