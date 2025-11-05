@@ -16,31 +16,31 @@ export default function ProjectsPage() {
         <h1 className="text-4xl font-bold">Projects</h1>
       </div>
 
-      {/* CreativeRush MediaLab - Featured */}
+      {/* CreativeRush Media Lab - Featured */}
       <a
         href="https://creativerush.me"
         target="_blank"
         rel="noopener noreferrer"
         className="group block mb-8"
       >
-        <article className="border border-accent/30 dark:border-accent/30 rounded-lg hover:border-accent transition-colors bg-accent/5 dark:bg-accent/10 p-6">
+        <article className="border border-accent/30 dark:border-accent/30 rounded hover:border-accent transition-colors bg-accent/5 dark:bg-accent/10 p-6">
           <div className="flex items-center gap-6">
-            <div className="w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden bg-white dark:bg-gray-900 flex items-center justify-center">
+            <div className="w-16 h-16 flex-shrink-0 rounded overflow-hidden bg-white dark:bg-gray-900 flex items-center justify-center">
               <img
                 src="/logo.svg"
-                alt="CreativeRush MediaLab"
+                alt="CreativeRush Media Lab"
                 className="w-12 h-12 object-contain"
               />
             </div>
             <div className="flex-grow min-w-0">
               <div className="flex items-center gap-3 mb-1">
                 <h3 className="text-xl font-semibold group-hover:text-accent transition">
-                  CreativeRush MediaLab
+                  CreativeRush Media Lab
                 </h3>
                 <span className="text-xs px-2 py-1 bg-accent/20 rounded whitespace-nowrap">Current Project</span>
               </div>
               <p className="text-gray-600 dark:text-gray-400">
-                GenAI experiments for film creators.
+                Media Lab co-designing AI experiments with film creators
               </p>
             </div>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400 group-hover:text-accent transition flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">

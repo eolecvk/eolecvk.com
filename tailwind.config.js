@@ -116,7 +116,7 @@ module.exports = {
             },
             pre: {
               backgroundColor: theme('colors.gray[100]'),
-              borderRadius: '0.5rem',
+              borderRadius: '0.25rem',
               padding: '1.25rem 1.5rem',
               marginTop: '2rem',
               marginBottom: '2rem',
@@ -139,7 +139,7 @@ module.exports = {
               padding: '1.5rem',
               marginTop: '2rem',
               marginBottom: '2rem',
-              borderRadius: '0.5rem',
+              borderRadius: '0.25rem',
             },
             'ul, ol': {
               paddingLeft: '1.5rem',
@@ -159,7 +159,7 @@ module.exports = {
             img: {
               marginTop: '3rem',
               marginBottom: '3rem',
-              borderRadius: '0.5rem',
+              borderRadius: '0.25rem',
             },
             table: {
               fontSize: '0.9375rem',

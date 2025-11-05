@@ -4,9 +4,10 @@ interface ContainerProps {
   children: ReactNode
   className?: string
   maxWidth?: 'narrow' | 'default' | 'wide'
+  id?: string
 }
 
-export default function Container({ children, className = '', maxWidth = 'default' }: ContainerProps) {
+export default function Container({ children, className = '', maxWidth = 'default', id }: ContainerProps) {
   const maxWidthClasses = {
     narrow: 'max-w-content-narrow',
     default: 'max-w-content-default',
@@ -14,7 +15,7 @@ export default function Container({ children, className = '', maxWidth = 'defaul
   }
 
   return (
-    <div className={`${maxWidthClasses[maxWidth]} mx-auto px-4 ${className}`}>
+    <div id={id} className={`${maxWidthClasses[maxWidth]} mx-auto px-4 ${className}`}>
       {children}
     </div>
   )

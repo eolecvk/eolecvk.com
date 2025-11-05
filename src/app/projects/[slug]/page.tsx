@@ -46,7 +46,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
               {project.metadata.tag.map((tag) => (
                 <span
                   key={tag}
-                  className="text-sm px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-full"
+                  className="text-sm px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-md"
                 >
                   {tag}
                 </span>

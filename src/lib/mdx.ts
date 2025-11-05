@@ -23,6 +23,8 @@ export function getAllProjects(): Project[] {
         thumbnail: data.thumbnail || '',
         date: data.date || '',
         tags: data.tag || [],
+        current: data.current || false,
+        category: data.category || '',
       }
     })
     .sort((a, b) => {

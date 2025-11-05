@@ -6,6 +6,8 @@ export interface Project {
   thumbnail: string
   date: string
   tags: string[]
+  current?: boolean
+  category?: string
 }
 
 export interface ProjectMetadata {
@@ -15,4 +17,6 @@ export interface ProjectMetadata {
   thumbnail: string
   date: string
   tag?: string[]
+  current?: boolean
+  category?: string
 }
