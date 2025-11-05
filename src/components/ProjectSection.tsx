@@ -1,21 +1,16 @@
-'use client'
-
-import { useState } from 'react'
 import Link from 'next/link'
 import { Project } from '@/types/project'
 
 interface ProjectSectionProps {
   title: string
   projects: Project[]
+  showAll?: boolean
   featuredContent?: React.ReactNode
 }
 
-export default function ProjectSection({ title, projects, featuredContent }: ProjectSectionProps) {
-  const [showAll, setShowAll] = useState(false)
-
+export default function ProjectSection({ title, projects, showAll = false, featuredContent }: ProjectSectionProps) {
   const currentProjects = projects.filter(p => p.current)
   const displayedProjects = showAll ? projects : currentProjects
-  const hasMoreProjects = projects.length > currentProjects.length
 
   return (
     <div>
@@ -62,18 +57,6 @@ export default function ProjectSection({ title, projects, featuredContent }: Pro
           </Link>
         ))}
       </div>
-
-      {/* View all link */}
-      {hasMoreProjects && !showAll && (
-        <div className="mt-4 text-center">
-          <button
-            onClick={() => setShowAll(true)}
-            className="text-sm text-gray-600 dark:text-gray-400 hover:text-accent transition"
-          >
-            View all
-          </button>
-        </div>
-      )}
     </div>
   )
 }
