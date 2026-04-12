@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
 function formatDate(dateString: string) {
   const date = new Date(dateString)
-  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long' })
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', timeZone: 'UTC' })
 }
 
 export default function ProjectPage({ params }: { params: { slug: string } }) {

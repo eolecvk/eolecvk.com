@@ -12,6 +12,8 @@ category: Image/Video
 
 > **⚠️ Note:** This article is about fine-tuning the original Stable Diffusion model ([CompVis/stable-diffusion](https://github.com/CompVis/stable-diffusion)) which is no longer state-of-the-art.
 
+**Stack:** Python, PyTorch, diffusers, Dreambooth | [HuggingFace](https://huggingface.co/lambdalabs/sd-naruto-diffusers)
+
 We present a couple examples of finetuning the `text-to-image` stable-diffusion model to learn new styles (e: "Naruto", "Avatar"). Note that a similar methodology can be applied to learn the representation of a new object or identity to the base model.
 
 ## Stable diffusion finetuning
@@ -61,13 +63,15 @@ These prompt patterns generate more authentic character results with characteris
 
 The difference between basic prompts and optimized prompts is significant. For example:
 
-<br />
-<p align="center">
-  <img src="https://staticassetbucket.s3.us-west-1.amazonaws.com/bill_gates_vanilla.png" alt="Bill Gates basic prompt" style="width: 45%; display: inline-block; margin-right: 2%;" />
-  <img src="https://staticassetbucket.s3.us-west-1.amazonaws.com/bill_gates_ninja.png" alt="Bill Gates with prompt engineering" style="width: 45%; display: inline-block;" />
-</p>
-<p align="center"><em>Left: "Bill Gates" (basic prompt) | Right: "Bill Gates ninja portrait" (optimized prompt)</em></p>
-<br />
+<div className="grid grid-cols-2 gap-4 my-8">
+
+![Bill Gates basic prompt](https://staticassetbucket.s3.us-west-1.amazonaws.com/bill_gates_vanilla.png)
+
+![Bill Gates with prompt engineering](https://staticassetbucket.s3.us-west-1.amazonaws.com/bill_gates_ninja.png)
+
+</div>
+
+*Left: "Bill Gates" (basic prompt) | Right: "Bill Gates ninja portrait" (optimized prompt)*
 
 **Usage**
 

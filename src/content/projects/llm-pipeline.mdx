@@ -7,11 +7,12 @@ description: Trace, monitor and optimize an LLM chain in production
 intro: "Automated news aggregation and article generation at news.lambda.ai"
 thumbnail: /images/projects/ml-times.webp
 date: 2023-09-03T10:31:47.439Z
-current: true
 category: LLM applications
 ---
 
 *ML Times is an AI-generated news site dedicated to summarizing and curating relevant updates for machine learning professionals.*
+
+**Stack:** Python, LangChain, LangSmith, BeautifulSoup, Claude/GPT-4
 
 ![ML Times homepage](/images/projects/ml-times.webp)
 
@@ -21,14 +22,10 @@ We refer to this sequence of processing steps as "chain" or "workflow".
 
 ![ML Times workflow](/images/projects/ml-times-workflow.webp)
 
-The pipeline itself is relatively straightforward. However, the sheer volume and diversity of articles present a significant challenge: building a workflow robust enough to handle all inputs reliably.
-
-***Ultimately, the quality of content featured on the news website hinges on the reliability of the entire workflow and each step must perform correctly.***
-
-A failure at any point can lead to issues degrading the quality of content on the website. Most common issues originated from:
-  * Article extraction errors: Parsing issues may result in missing or incomplete article content.
-  * Summarization flaws: Summaries might omit important details or misrepresent the original intent.
-  * Article selection inaccuracies: Marketing material disguised as machine learning insights may slip through and appear on the front page.
+The pipeline is straightforward in concept, but the volume and diversity of sources make reliability the real challenge. Failures compound — a bad extraction leads to a bad summary leads to a bad article on the front page. The most common failure modes:
+  * **Extraction errors:** Incomplete parsing, ad copy captured as article text
+  * **Summarization drift:** Key details omitted or original intent distorted
+  * **Selection leakage:** Marketing content misclassified as ML research
 
 
 It is critical to optimize and **"evaluate"** the expected performance of the system in production, which is typically done through experiments in machine learning.
@@ -39,9 +36,9 @@ We also need to record or **"trace"** the flow of requests through the pipeline 
 
 **Article Ingestion** (programmatic step)
 
-We extract a wide set of articles from blogs, news and social media websites using `BeautifuSoup`.
-It is a purely programmatic step, no LLM is involved. This is however, the start of LLM workflow tracing as any issue at this step will cause downstream issues in the LLM calls.
-For instance, we cannot expect correct classification or summarization of an article if the article was not correctly ingested in the first place. A common example of article ingestion issues include adding non text article (such as advertising in the article text output) or not ingesting the totalily of the article.
+We extract a wide set of articles from blogs, news and social media websites using `BeautifulSoup`.
+No LLM is involved at this step, but it's where tracing starts — any ingestion issue causes downstream failures in classification and summarization.
+Common ingestion problems: capturing ad copy as article text, or truncating long articles before the content is fully extracted.
 
 Not all articles are relevant to the ML community, so the next step is filtering.
 

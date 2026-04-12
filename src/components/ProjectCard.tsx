@@ -7,7 +7,7 @@ interface ProjectCardProps {
 
 function formatDate(dateString: string) {
   const date = new Date(dateString)
-  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' })
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', timeZone: 'UTC' })
 }
 
 export default function ProjectCard({ project }: ProjectCardProps) {
@@ -28,13 +28,8 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           <h3 className="text-xl font-semibold mb-2 group-hover:text-accent group-focus-within:text-accent transition-colors duration-200">
             {project.title}
           </h3>
-          {project.tagline && (
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2 italic">
-              {project.tagline}
-            </p>
-          )}
           <p className="text-gray-600 dark:text-gray-400 line-clamp-3 flex-1">
-            {project.intro || project.description}
+            {project.tagline || project.description}
           </p>
           {project.date && (
             <p className="text-xs text-gray-400 dark:text-gray-500 mt-4 pt-3 border-t border-gray-100 dark:border-gray-800">

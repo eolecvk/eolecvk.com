@@ -38,7 +38,7 @@ export default function Home() {
                     Eole Cervenka
                   </h1>
                   <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl">
-                    Building AI/ML systems for media production and LLM applications
+                    ML engineer building production systems for LLM and generative AI applications
                   </p>
                 </div>
 
