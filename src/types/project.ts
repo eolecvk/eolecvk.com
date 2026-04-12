@@ -18,7 +18,7 @@ export interface ProjectMetadata {
   intro: string
   thumbnail: string
   date: string
-  tag?: string[]
+  tags?: string[]
   current?: boolean
   category?: string
 }

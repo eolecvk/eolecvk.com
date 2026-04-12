@@ -18,11 +18,12 @@ export function getAllProjects(): Project[] {
       return {
         slug,
         title: data.title || '',
+        tagline: data.tagline || '',
         description: data.description || '',
         intro: data.intro || '',
         thumbnail: data.thumbnail || '',
         date: data.date || '',
-        tags: data.tag || [],
+        tags: data.tags || data.tag || [],
         current: data.current || false,
         category: data.category || '',
       }
@@ -53,6 +54,15 @@ export function getProjectBySlug(slug: string) {
     slug,
     metadata: data as ProjectMetadata,
     content,
+  }
+}
+
+export function getAdjacentProjects(slug: string) {
+  const projects = getAllProjects()
+  const index = projects.findIndex((p) => p.slug === slug)
+  return {
+    prev: index > 0 ? projects[index - 1] : null,
+    next: index < projects.length - 1 ? projects[index + 1] : null,
   }
 }
 

@@ -5,35 +5,17 @@ title: All You Need is One GPU
 tagline: "Inference Benchmark for Stable Diffusion (cited by Google Research)"
 description: "We benchmark Stable Diffusion inference on GPUs and CPUs including A100, 3090, and more—measuring speed, memory, throughput, and output quality."
 intro: "Inference Benchmark for Stable Diffusion (cited by Google Research)"
-features:
-  - name: Author
-    value: Eole Cervenka
-  - name: Published
-    value: October 5th, 2022
-style:
-  template: full
-  card_template: grid
-  hero_template: image
-  hero_image_opacity: "1"
-  container: md
-  block_class: my-0
-thumbnail: /images/projects/stable-diffusion-benchmark.png
+thumbnail: /images/projects/sd-bench-1.webp
 date: 2023-09-03T10:31:47.439Z
 current: true
 category: Image/Video
 ---
 
-<div style="border: 2px solid #d97706; border-radius: 6px; padding: 16px; margin-bottom: 24px; background-color: #fef3c7;">
-  <strong style="color: #92400e;">⚠️ Note:</strong> <span style="color: #78350f;">This article is about the original Stable Diffusion model (<a href="https://github.com/CompVis/stable-diffusion" style="color: #b45309; text-decoration: underline;">CompVis/stable-diffusion</a>) which is no longer state-of-the-art.</span>
-</div>
+> **⚠️ Note:** This article is about the original Stable Diffusion model ([CompVis/stable-diffusion](https://github.com/CompVis/stable-diffusion)) which is no longer state-of-the-art.
 
 What do I need for running the Stable Diffusion text-to-image model? Can a gaming card do the job, or should I get a fancy A100? What if I only have a CPU?
 
-<br />
-<p align="center">
-  <img src="/images/projects/sd-bench-1.png" alt="Stable Diffusion Benchmark" style="width: 85%;" />
-</p>
-<br />
+![Stable Diffusion Benchmark](/images/projects/sd-bench-1.webp)
 
 To shed light on these questions, we present an [inference benchmark](https://github.com/LambdaLabsML/lambda-diffusers/tree/eole/benchmarking#benchmarking-inference) of [Stable Diffusion](https://huggingface.co/CompVis/stable-diffusion) on different GPUs and CPUs. These are our findings:
 
@@ -55,7 +37,7 @@ The figure below shows the inference speed when using different hardware and pre
 
 <br />
 <p align="center">
-  <img src="/images/projects/sd-bench-2.png" alt="Stable Diffusion Benchmark" />
+  <img src="/images/projects/sd-bench-2.webp" alt="Stable Diffusion Benchmark" />
 </p>
 <br />
 
@@ -69,7 +51,7 @@ We find that:
 
 <br />
 <p align="center">
-  <img src="/images/projects/sd-bench-3.png" alt="Stable Diffusion Benchmark" />
+  <img src="/images/projects/sd-bench-3.webp" alt="Stable Diffusion Benchmark" />
 </p>
 <br />
 
@@ -85,7 +67,7 @@ We also measure the memory consumption of running Stable Diffusion inference.
 
 <br />
 <p align="center">
-  <img src="/images/projects/sd-bench-4.png" alt="Stable Diffusion Benchmark" />
+  <img src="/images/projects/sd-bench-4.webp" alt="Stable Diffusion Benchmark" />
 </p>
 <br />
 
@@ -104,7 +86,7 @@ We run a series of throughput experiments in PyTorch with half-precision and usi
 
 <br />
 <p align="center">
-  <img src="/images/projects/sd-bench-5.png" alt="Stable Diffusion Benchmark" />
+  <img src="/images/projects/sd-bench-5.webp" alt="Stable Diffusion Benchmark" />
 </p>
 <br />
 
@@ -116,7 +98,7 @@ We note:
 
 <br />
 <p align="center">
-  <img src="/images/projects/sd-bench-6.png" alt="Stable Diffusion Benchmark" />
+  <img src="/images/projects/sd-bench-6.webp" alt="Stable Diffusion Benchmark" />
 </p>
 <br />
 
@@ -169,7 +151,7 @@ Interestingly, such a difference may not imply artifacts in half-precision's out
 
 <br />
 <p align="center">
-  <img src="/images/projects/sd-bench-10.png" alt="Stable Diffusion Benchmark" />
+  <img src="/images/projects/sd-bench-10.webp" alt="Stable Diffusion Benchmark" />
 </p>
 <br />
 

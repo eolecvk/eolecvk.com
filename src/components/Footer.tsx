@@ -11,7 +11,7 @@ export default function Footer() {
               href="https://github.com/eolecvk"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:opacity-70 transition-opacity"
+              className="hover:opacity-70 transition-opacity focus-visible:opacity-70 focus-visible:outline-none"
               aria-label="GitHub"
             >
               <svg
@@ -26,7 +26,7 @@ export default function Footer() {
               href="https://www.linkedin.com/in/eole-cervenka/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:opacity-70 transition-opacity"
+              className="hover:opacity-70 transition-opacity focus-visible:opacity-70 focus-visible:outline-none"
               aria-label="LinkedIn"
             >
               <svg
