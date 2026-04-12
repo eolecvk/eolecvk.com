@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Eole Cervenka',
-    description: 'AI/ML Engineer — Building AI/ML systems for media production and LLM applications',
+    description: 'ML engineer building production systems for LLM and generative AI applications',
     type: 'website',
     url: 'https://eolecvk.com',
     images: ['/screenshot.webp'],
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Eole Cervenka',
-    description: 'AI/ML Engineer — Building AI/ML systems for media production and LLM applications',
+    description: 'ML engineer building production systems for LLM and generative AI applications',
     images: ['/screenshot.webp'],
   },
 }
