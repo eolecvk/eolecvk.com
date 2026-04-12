@@ -1,0 +1,100 @@
+---
+tag:
+  - MCP
+  - LLM
+  - fintech
+title: "Building an MCP Server for Financial Data"
+tagline: "SQL-over-MCP for credit analysis — what works, what breaks, and why LLMs fabricate financial metrics"
+description: "Designing a production MCP server for financial data: the tension between query flexibility and answer reliability"
+intro: "SQL-over-MCP for credit analysis — what works, what breaks, and why LLMs fabricate financial metrics"
+thumbnail: /images/projects/mcp-architecture.svg
+date: 2026-03-01T00:00:00.000Z
+current: true
+category: LLM applications
+---
+
+**TL;DR** — *I'm building an MCP server that gives AI agents SQL access to corporate financial data. The hard part isn't security — it's that financial data stored as massive JSONB blobs causes LLMs to fabricate metrics they can't see. Benchmarking real analyst queries revealed the core tradeoff: flexibility vs. reliability.*
+
+**Stack:** Python, FastMCP, PostgreSQL, Supabase (RLS), pglast, Docker, AWS ECS Fargate
+
+## Context
+
+At [Constellation Finance](https://constellationfinance.io), we build credit analysis tools for restructuring professionals. The platform surfaces financial statements, capital structures, and covenant analysis for corporate debt.
+
+We wanted to let AI agents query this data directly — not through rigid API endpoints, but with the full expressiveness of SQL. [MCP](https://modelcontextprotocol.io/) (Model Context Protocol) was the right abstraction: it standardizes how agents discover and use external tools. [FastMCP](https://github.com/jlowin/fastmcp) made it practical to ship.
+
+The interesting story isn't the protocol mechanics. It's what happens when you give an LLM a SQL tool and point it at complex financial data.
+
+## The JSONB Problem
+
+Financial statements are stored as JSONB columns. An income statement for one company, one period, is a nested structure: line items with labels, multi-period values, footnotes, format metadata. A single row is **100–250 KB**.
+
+When an agent needs to compute something like LTM EBITDA (sum of last 4 quarters), it fetches 4 rows of financial statements. For a cross-company comparison, multiply by N companies. A straightforward "compare leverage across steel companies" query can pull **2–8 MB of JSONB**.
+
+The MCP tool result gets truncated. The LLM sees the first 50K characters, and the rest disappears.
+
+Here's what happens next: **the LLM fills in the gaps with plausible-sounding numbers.** It doesn't say "I couldn't see the data." It fabricates EBITDA figures, leverage ratios, and covenant thresholds that look reasonable but are wrong.
+
+## Benchmarking: How Bad Is It?
+
+We ran 12 real-world credit analysis queries — the kinds of questions analysts actually ask — against the live database. We classified each answer by whether the data was traceable to actual query results:
+
+- **Tier 1 (Grounded):** Answer fully supported by returned data. Simple queries fetching <50 KB with zero truncations.
+- **Tier 2 (Partially grounded):** Some real data mixed with fabricated metrics. Typically: debt totals were real (small columns), but EBITDA and ratios were invented (from truncated JSONB blobs).
+- **Tier 3 (Unverifiable):** Answer plausible but untraceable. Agent fetched megabytes, got truncated to a fragment, and constructed a narrative from whatever survived.
+
+**Result: the majority of analytical queries fell into Tier 2 or 3.** The server passed every query technically — valid SQL, correct execution, proper auth. But the answers were unreliable because the LLM couldn't see the data it needed.
+
+## Three MCP Design Patterns
+
+Before building, we studied three production MCP servers for financial data, each representing a different design philosophy:
+
+**Pattern 1: SQL-over-MCP** — Expose `get_schema()` and `execute_query(sql)`. Maximum flexibility. The agent can write any SELECT. But quality depends entirely on LLM SQL generation, and complex JSONB navigation is where LLMs fail.
+
+**Pattern 2: Pre-built tools** — One tool per question type (`get_ltm_ebitda(ticker)`, `get_leverage(ticker)`). Consistent output. But rigid: every new question type requires a server-side code change. And analytical queries are *compositional* — analysts combine dimensions freely:
+
+> "Forward leverage if EBITDA drops 10%, AND the $200M term loan is repaid, AND excluding names with covenant blockers, compared to 2 years ago."
+
+Each dimension is a new parameter. A stored procedure covering all combinations becomes a query engine in PL/pgSQL — reimplementing SQL composition, which the LLM does naturally.
+
+**Pattern 3: Workflow injection** — MCP tools that don't execute queries, but return structured prompts containing domain-expert SQL patterns, JSONB navigation guides, and common pitfalls. The LLM uses these as templates.
+
+We chose a hybrid: **SQL-over-MCP (Pattern 1) with workflow injection (Pattern 3) to guide quality, and three-layer security to constrain risk.**
+
+## Workflow Injection: The Biggest Quality Improvement
+
+The schema alone isn't enough. Financial JSONB has nested period arrays, mixed-type values (numeric, text like "3.2x", monetary strings), and domain-specific concepts (LTM, net leverage, FCCR) that require multi-step computation.
+
+Workflow tools inject:
+
+- **JSONB field schemas** — how to navigate the nested structure to extract a specific metric
+- **Battle-tested SQL patterns** — working queries for common analyses, copy-paste ready
+- **Domain pitfalls** — "maturity_date is TEXT not DATE," "coupon_rate may be 'variable' or 'SOFR + 400bps'," "some companies have multiple credit groups"
+
+This was the single biggest quality improvement. The LLM stops guessing at JSONB structure and follows proven patterns.
+
+## Defense in Depth
+
+Security is important but wasn't the hard engineering problem. Three independent layers:
+
+1. **AST validation** — Parse every SQL query into an Abstract Syntax Tree (pglast), walk it, reject anything not on an explicit allowlist of node types and functions. Blocks destructive operations but also subtle attacks (`pg_sleep`, `pg_read_file`).
+2. **JWT + Row-Level Security** — Every query carries the user's token. Supabase RLS enforces data access boundaries at the database level.
+3. **Postgres RPC** — Server-side function with statement timeout and result row cap. Prevents resource exhaustion.
+
+Any single layer failing doesn't compromise the system.
+
+## What's Next: Flattening the Data
+
+The root cause of fabrication is data volume, not query complexity. The fix is server-side: **Postgres views that flatten JSONB blobs into queryable rows.**
+
+Instead of fetching a 250 KB income statement blob and hoping the LLM can parse it, the agent queries a flat view: `SELECT metric_name, period, value FROM financial_metrics WHERE ticker = '...' AND metric_name ILIKE '%ebitda%'`. ~200 bytes per row instead of 250 KB per blob.
+
+Three views cover the majority of the benchmark failures. The unstructured data (raw covenant language, provision text) will need dedicated MCP tools that scope by key rather than dumping entire documents.
+
+## Takeaways
+
+**Benchmark before you ship.** Running real analyst queries against the live system revealed problems that unit tests and manual testing missed. The server worked perfectly at the tool level. The answers were wrong at the analytical level.
+
+**Flexibility and reliability are in tension.** SQL-over-MCP is the most flexible pattern, but it's only as good as the LLM's ability to navigate your data model. Workflow injection narrows the gap, but the fundamental fix is making the data LLM-friendly at the storage level.
+
+**MCP is a good abstraction.** The protocol itself worked well. FastMCP made shipping fast. The challenges are all data-layer, not protocol-layer.

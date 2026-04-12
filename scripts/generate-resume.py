@@ -252,18 +252,7 @@ RESUME_HTML = """\
     <li>Developed GenAI model benchmarks, including an inference benchmark for Stable Diffusion cited by Google Research in the Muse paper</li>
     <li>Published Stable Diffusion finetuning demos on Hugging Face</li>
     <li>Conducted 8 technical interviews, contributing to hiring decisions for ML engineering team growth</li>
-  </ul>
-</div>
-
-<div class="job">
-  <div class="job-header">
-    <div><span class="job-title">Machine Learning Engineer</span> <span class="job-company">— Deep Voodoo</span></div>
-    <span class="job-dates">Jun 2022 – Dec 2023</span>
-  </div>
-  <ul>
-    <li>Led the transition of a deepfake research pipeline into a scalable, production-ready system deployed in high-profile Hollywood projects</li>
-    <li>Improved robustness and deployment speed by versioning and containerizing model training</li>
-    <li>Led R&amp;D projects in image restoration, facial detection for non-human faces, and image generation with controllable camera angle</li>
+    <li>Contracted to Deep Voodoo (Jun 2022 – Dec 2023): led transition of deepfake research pipeline to production for Hollywood VFX, containerized model training, R&amp;D in image restoration and controllable generation</li>
   </ul>
 </div>
 
@@ -281,7 +270,7 @@ RESUME_HTML = """\
 
 <div class="job">
   <div class="job-header">
-    <div><span class="job-title">Data Scientist</span> <span class="job-company">— Prazely (1st employee)</span></div>
+    <div><span class="job-title">Data Scientist</span> <span class="job-company">— Prazely</span></div>
     <span class="job-dates">Oct 2018 – Apr 2019</span>
   </div>
   <ul>

@@ -14,7 +14,9 @@ category: LLM applications
 
 **TL;DR** — *I built an AI chatbot to provide fast, contextual financial analysis based on in-house research, enabling brokers to scale personalized client support without scaling headcount.*
 
-This bot answers user questions using a simple methodology:
+**Stack:** Python, LangGraph, Gemini 2.5 Pro, PDF ingestion, vector search | [GitHub](https://github.com/eolecvk/research-portal)
+
+The bot answers user questions by:
 - Reads the company or industry-specific reports relevant to the question
 - Finds the key information needed to answer, if it exists
 - Synthesizes an accurate, natural-language answer
@@ -28,15 +30,9 @@ Code and documentation available:
 Thanks to Hugo Bosch — financial research professional and AI enthusiast — for his clear vision on how LLMs can address challenges in finance and for helping shape this work.
 
 
-### Context and Motivation
+### Context
 
-
-**Financial securities brokers help investors make informed decisions**  
--- by publishing research reports via analyst teams  and providing personalized advice through sales representatives.
-
-**The problem? This system doesn’t scale well!**  
-While research teams are already busy writing reports, sales teams lack deep expertise or bandwidth to answer every client question in detail.  
-**Answering individual client questions is time-consuming and requires expertise, so scaling personalized support with only human teams is inefficient.**
+Financial brokers publish research reports and provide personalized advice — but answering individual client questions requires deep expertise and doesn’t scale with headcount alone. The goal: let brokers query their own research corpus in natural language, with cited answers.
 
 
 *A Q&A chatbot with access to in-house financial reports can answer technical questions from clients—accurately, instantly, and with source citations.*

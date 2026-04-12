@@ -50,9 +50,14 @@ export function getProjectBySlug(slug: string) {
   const fileContents = fs.readFileSync(fullPath, 'utf8')
   const { data, content } = matter(fileContents)
 
+  const metadata: ProjectMetadata = {
+    ...data as ProjectMetadata,
+    tags: data.tags || data.tag || [],
+  }
+
   return {
     slug,
-    metadata: data as ProjectMetadata,
+    metadata,
     content,
   }
 }

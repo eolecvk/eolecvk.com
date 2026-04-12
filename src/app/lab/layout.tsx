@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Script from 'next/script'
 
 export const metadata: Metadata = {
   title: 'CreativeRush Media Lab - Eole Cervenka',
@@ -10,5 +11,16 @@ export default function LabLayout({
 }: {
   children: React.ReactNode
 }) {
-  return <>{children}</>
+  return (
+    <>
+      <Script
+        id="lab-dark-mode"
+        strategy="beforeInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `document.body.classList.add('lab-dark');`,
+        }}
+      />
+      {children}
+    </>
+  )
 }
