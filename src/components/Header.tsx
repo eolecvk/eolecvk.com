@@ -1,63 +1,38 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
+
+const NAV = [
+  { href: '/', label: 'Home' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/about', label: 'About' },
+] as const
 
 export default function Header() {
-  const pathname = usePathname()
-  const router = useRouter()
-
-  const isActive = (path: string) => {
-    if (path === '/') {
-      return pathname === '/' || pathname.startsWith('/projects')
-    }
-    return pathname.startsWith(path)
-  }
-
-  const handleProjectsClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault()
-
-    if (pathname === '/') {
-      const projectsSection = document.getElementById('projects')
-      if (projectsSection) {
-        projectsSection.scrollIntoView({ behavior: 'smooth' })
-      }
-    } else {
-      router.push('/#projects')
-    }
-  }
-
-  const linkClasses = (path: string) =>
-    `transition-colors duration-200 focus-visible:text-accent focus-visible:outline-none relative pb-1 ${
-      isActive(path)
-        ? 'text-accent after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-accent'
-        : 'hover:text-accent'
-    }`
+  const pathname = usePathname() ?? '/'
 
   return (
-    <header className="border-b border-gray-200 dark:border-gray-800">
-      <nav className="px-6 py-4 flex items-center justify-between">
-        <Link
-          href="/"
-          className="text-2xl font-bold tracking-wider transition-colors duration-200 hover:text-accent focus-visible:text-accent focus-visible:outline-none"
-        >
-          EC
-        </Link>
-        <div className="flex gap-6 text-base">
-          <a
-            href="/#projects"
-            onClick={handleProjectsClick}
-            className={linkClasses('/')}
-          >
-            Projects
-          </a>
-          <Link href="/resume" className={linkClasses('/resume')}>
-            Resume
-          </Link>
-          <Link href="/lab" className={linkClasses('/lab')}>
-            Media Lab
-          </Link>
-        </div>
+    <header className="max-w-3xl mx-auto px-6 pt-8 md:pt-10 pb-6 border-b border-gray-200 dark:border-gray-800">
+      <nav className="flex items-baseline gap-6 text-sm" aria-label="Primary">
+        {NAV.map(({ href, label }) => {
+          const active =
+            href === '/' ? pathname === '/' : pathname.startsWith(href)
+          return (
+            <Link
+              key={href}
+              href={href}
+              aria-current={active ? 'page' : undefined}
+              className={
+                active
+                  ? 'text-gray-900 dark:text-gray-100 underline decoration-gray-900 dark:decoration-gray-100 underline-offset-4'
+                  : 'text-gray-500 dark:text-gray-500 hover:text-gray-900 dark:hover:text-gray-100 transition-colors'
+              }
+            >
+              {label}
+            </Link>
+          )
+        })}
       </nav>
     </header>
   )

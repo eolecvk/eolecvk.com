@@ -10,7 +10,6 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'accent': '#00FF9C',
         'dark': '#171219',
       },
       fontFamily: {
@@ -43,20 +42,20 @@ module.exports = {
           css: {
             '--tw-prose-body': theme('colors.gray[700]'),
             '--tw-prose-headings': theme('colors.gray[900]'),
-            '--tw-prose-links': theme('colors.accent'),
+            '--tw-prose-links': theme('colors.gray[900]'),
             '--tw-prose-bold': theme('colors.gray[900]'),
             '--tw-prose-code': theme('colors.gray[900]'),
             '--tw-prose-pre-bg': theme('colors.gray[50]'),
             '--tw-prose-pre-code': theme('colors.gray[900]'),
-            '--tw-prose-quote-borders': theme('colors.accent'),
+            '--tw-prose-quote-borders': theme('colors.gray[300]'),
             '--tw-prose-invert-body': theme('colors.gray[300]'),
             '--tw-prose-invert-headings': theme('colors.white'),
-            '--tw-prose-invert-links': theme('colors.accent'),
+            '--tw-prose-invert-links': theme('colors.gray[100]'),
             '--tw-prose-invert-bold': theme('colors.white'),
             '--tw-prose-invert-code': theme('colors.white'),
             '--tw-prose-invert-pre-bg': theme('colors.gray[900]'),
             '--tw-prose-invert-pre-code': theme('colors.gray[100]'),
-            '--tw-prose-invert-quote-borders': theme('colors.accent'),
+            '--tw-prose-invert-quote-borders': theme('colors.gray[700]'),
             maxWidth: '70ch', // Optimal reading width
             fontSize: '1.0625rem', // 17px base
             lineHeight: '1.75',
@@ -67,9 +66,9 @@ module.exports = {
             a: {
               fontWeight: '500',
               textDecoration: 'underline',
-              textDecorationColor: theme('colors.accent / 0.3'),
+              textDecorationColor: theme('colors.gray[300]'),
               '&:hover': {
-                textDecorationColor: theme('colors.accent'),
+                textDecorationColor: theme('colors.gray[900]'),
               },
             },
             'h1, h2, h3, h4, h5, h6': {
@@ -134,7 +133,7 @@ module.exports = {
               fontWeight: '400',
               fontStyle: 'normal',
               borderLeftWidth: '0.25rem',
-              borderLeftColor: theme('colors.accent'),
+              borderLeftColor: theme('colors.gray[300]'),
               backgroundColor: theme('colors.gray[50]'),
               padding: '1.5rem',
               marginTop: '2rem',

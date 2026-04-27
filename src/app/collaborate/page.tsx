@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 
-export default function ResumeRedirect() {
+export default function CollaborateRedirect() {
   useEffect(() => {
     window.location.replace('/about')
   }, [])
