@@ -8,7 +8,9 @@ export interface Project {
   date: string
   tags: string[]
   current?: boolean
+  featured?: boolean
   category?: string
+  metric?: string
 }
 
 export interface ProjectMetadata {
@@ -20,5 +22,8 @@ export interface ProjectMetadata {
   date: string
   tags?: string[]
   current?: boolean
+  featured?: boolean
   category?: string
+  metric?: string
+  stats?: { label: string; value: string }[]
 }

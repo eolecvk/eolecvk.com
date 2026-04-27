@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { getAllProjectSlugs, getProjectBySlug, getAdjacentProjects } from '@/lib/mdx'
-import Container from '@/components/Container'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
@@ -16,9 +15,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const project = getProjectBySlug(params.slug)
 
   if (!project) {
-    return {
-      title: 'Project Not Found',
-    }
+    return { title: 'Project Not Found' }
   }
 
   return {
@@ -28,7 +25,11 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       title: project.metadata.title,
       description: project.metadata.description,
       type: 'article',
-      images: project.metadata.thumbnail ? [project.metadata.thumbnail] : undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: project.metadata.title,
+      description: project.metadata.description,
     },
   }
 }
@@ -48,64 +49,88 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
   const { prev, next } = getAdjacentProjects(params.slug)
   const tags = project.metadata.tags || []
 
+  // Schema.org CreativeWork — explicit metadata for AI agents and search engines
+  const articleLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: project.metadata.title,
+    description: project.metadata.description,
+    datePublished: project.metadata.date,
+    keywords: tags.join(', '),
+    author: {
+      '@type': 'Person',
+      name: 'Eole Cervenka',
+      url: 'https://eolecvk.com',
+    },
+    image: project.metadata.thumbnail
+      ? `https://eolecvk.com${project.metadata.thumbnail}`
+      : undefined,
+  }
+
   return (
-    <Container maxWidth="narrow" className="py-section-desktop">
-      {/* Back link */}
-      <Link
-        href="/#projects"
-        className="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-accent transition-colors duration-200 mb-8"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-          <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
-        </svg>
-        All projects
-      </Link>
+    <div className="max-w-2xl mx-auto px-6 pt-6 md:pt-8 pb-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }}
+      />
 
       <article>
-        {/* Hero image */}
-        {project.metadata.thumbnail && (
-          <div className="aspect-video overflow-hidden rounded bg-gray-100 dark:bg-gray-800 mb-8">
-            <img
-              src={project.metadata.thumbnail}
-              alt={project.metadata.title}
-              className="w-full h-full object-cover"
-            />
-          </div>
-        )}
+        {/* Header — title + meta strip + intro */}
+        <header className="mb-10">
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
+            {project.metadata.title}
+          </h1>
 
-        <header className="mb-12">
-          <h1 className="text-3xl lg:text-4xl font-bold mb-4">{project.metadata.title}</h1>
-
-          {/* Date + Tags row */}
-          <div className="flex flex-wrap items-center gap-3 mb-4">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mt-3 font-mono text-xs text-gray-500 dark:text-gray-500">
             {project.metadata.date && (
-              <span className="text-sm text-gray-500 dark:text-gray-400">
-                {formatDate(project.metadata.date)}
-              </span>
+              <span>{formatDate(project.metadata.date)}</span>
             )}
-            {tags.length > 0 && (
+            {project.metadata.current && (
               <>
-                <span className="text-gray-300 dark:text-gray-600">·</span>
-                <div className="flex flex-wrap gap-2">
-                  {tags.map((tag: string) => (
-                    <span
-                      key={tag}
-                      className="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+                <span className="text-gray-300 dark:text-gray-700">·</span>
+                <span className="inline-flex items-center gap-1.5">
+                  <span
+                    aria-hidden
+                    className="inline-block w-[6px] h-[6px] rounded-full bg-gray-900 dark:bg-gray-100"
+                  />
+                  Active
+                </span>
               </>
             )}
+            <span className="text-gray-300 dark:text-gray-700">·</span>
+            <span>{project.readingMinutes} min read</span>
           </div>
 
-          <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
-            {project.metadata.intro || project.metadata.description}
-          </p>
+          {project.metadata.intro && (
+            <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed mt-5 max-w-[60ch]">
+              {project.metadata.intro}
+            </p>
+          )}
+
+          {project.metadata.stats && project.metadata.stats.length > 0 && (
+            <p className="mt-4 font-mono text-xs text-gray-500 dark:text-gray-500 leading-relaxed">
+              {project.metadata.stats.map((s, i) => (
+                <span key={s.label}>
+                  {i > 0 && <span className="text-gray-300 dark:text-gray-700"> · </span>}
+                  <span className="text-gray-400 dark:text-gray-600 uppercase tracking-[0.08em]">{s.label}</span>{' '}
+                  <span className="text-gray-700 dark:text-gray-300">{s.value}</span>
+                </span>
+              ))}
+            </p>
+          )}
         </header>
 
-        <div className="prose prose-lg dark:prose-invert prose-headings:first:mt-0">
+        {/* Hero image — minimal frame */}
+        {project.metadata.thumbnail && (
+          <img
+            src={project.metadata.thumbnail}
+            alt={project.metadata.title}
+            className="w-full h-auto rounded mb-10"
+          />
+        )}
+
+        {/* Body prose */}
+        <div className="prose dark:prose-invert prose-headings:first:mt-0 max-w-none">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeRaw, rehypeHighlight]}
@@ -121,41 +146,57 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
             {project.content}
           </ReactMarkdown>
         </div>
+
+        {/* Tags — moved out of meta strip to article foot */}
+        {tags.length > 0 && (
+          <ul className="mt-12 pt-6 border-t border-gray-200 dark:border-gray-800 flex flex-wrap gap-1.5">
+            {tags.map((t) => (
+              <li
+                key={t}
+                className="text-[11px] font-medium px-2 py-0.5 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-700 rounded-full whitespace-nowrap"
+              >
+                {t}
+              </li>
+            ))}
+          </ul>
+        )}
       </article>
 
-      {/* Prev / Next navigation */}
+      {/* Prev / Next navigation — quiet inline foot */}
       {(prev || next) && (
-        <nav className="mt-16 pt-8 border-t border-gray-200 dark:border-gray-800">
-          <div className="flex justify-between items-start gap-8">
-            {prev ? (
+        <nav className="mt-12 pt-6 border-t border-gray-200 dark:border-gray-800 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 text-sm">
+          <div className="flex-1 min-w-0">
+            {prev && (
               <Link
                 href={`/projects/${prev.slug}`}
-                className="group flex-1 min-w-0"
+                className="group inline-flex items-baseline gap-2"
               >
-                <span className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider">Previous</span>
-                <p className="text-base font-medium group-hover:text-accent transition-colors duration-200 truncate mt-1">
+                <span className="font-mono text-[10px] uppercase tracking-[0.08em] text-gray-400 dark:text-gray-600">
+                  ← Previous
+                </span>
+                <span className="font-medium text-gray-700 dark:text-gray-300 group-hover:underline decoration-gray-300 dark:decoration-gray-700 underline-offset-4 truncate">
                   {prev.title}
-                </p>
+                </span>
               </Link>
-            ) : (
-              <div className="flex-1" />
             )}
-            {next ? (
+          </div>
+          <div className="flex-1 min-w-0 sm:text-right">
+            {next && (
               <Link
                 href={`/projects/${next.slug}`}
-                className="group flex-1 min-w-0 text-right"
+                className="group inline-flex items-baseline gap-2"
               >
-                <span className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider">Next</span>
-                <p className="text-base font-medium group-hover:text-accent transition-colors duration-200 truncate mt-1">
+                <span className="font-medium text-gray-700 dark:text-gray-300 group-hover:underline decoration-gray-300 dark:decoration-gray-700 underline-offset-4 truncate">
                   {next.title}
-                </p>
+                </span>
+                <span className="font-mono text-[10px] uppercase tracking-[0.08em] text-gray-400 dark:text-gray-600">
+                  Next →
+                </span>
               </Link>
-            ) : (
-              <div className="flex-1" />
             )}
           </div>
         </nav>
       )}
-    </Container>
+    </div>
   )
 }

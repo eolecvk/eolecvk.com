@@ -28,6 +28,16 @@
     @apply bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100;
   }
 
+  .prose blockquote {
+    @apply bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-200;
+  }
+
+  /* Resume page — monospace tag-strip for the stack line */
+  .resume-prose > p:first-child {
+    @apply font-mono text-sm text-gray-500 dark:text-gray-400 tracking-tight;
+    margin-top: 0;
+  }
+
   /* Syntax highlighting colors for light mode */
   .prose pre code .hljs-keyword,
   .prose pre code .hljs-selector-tag,

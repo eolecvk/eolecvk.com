@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import Header from '@/components/Header'
 
 const inter = Inter({ subsets: ['latin'], display: 'swap' })
 
@@ -41,7 +41,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-3 focus:bg-accent focus:text-dark focus:font-semibold">
+        <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-3 focus:bg-gray-900 focus:text-white focus:font-semibold">
           Skip to content
         </a>
         <Header />
