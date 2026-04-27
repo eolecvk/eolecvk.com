@@ -17,7 +17,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ol: ({ children }) => <ol className="list-decimal list-inside mb-4 space-y-2">{children}</ol>,
     li: ({ children }) => <li>{children}</li>,
     a: ({ href, children }) => (
-      <a href={href} className="text-accent hover:underline" target="_blank" rel="noopener noreferrer">
+      <a href={href} className="text-gray-900 dark:text-gray-100 underline decoration-gray-300 dark:decoration-gray-700 underline-offset-4 hover:decoration-gray-900 dark:hover:decoration-gray-100" target="_blank" rel="noopener noreferrer">
         {children}
       </a>
     ),
@@ -37,7 +37,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       </div>
     ),
     blockquote: ({ children }) => (
-      <blockquote className="border-l-4 border-accent pl-4 italic my-4">
+      <blockquote className="border-l-4 border-gray-300 dark:border-gray-700 pl-4 italic my-4">
         {children}
       </blockquote>
     ),

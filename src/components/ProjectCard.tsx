@@ -13,7 +13,7 @@ function formatDate(dateString: string) {
 export default function ProjectCard({ project }: ProjectCardProps) {
   return (
     <Link href={`/projects/${project.slug}`} className="group block h-full">
-      <article className="h-full border border-gray-200 dark:border-gray-800 rounded overflow-hidden hover:border-accent transition-colors duration-200 flex flex-col">
+      <article className="h-full border border-gray-200 dark:border-gray-800 rounded overflow-hidden hover:border-gray-400 dark:hover:border-gray-600 transition-colors duration-200 flex flex-col">
         {project.thumbnail && (
           <div className="aspect-video overflow-hidden bg-gray-100 dark:bg-gray-800">
             <img
@@ -25,7 +25,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           </div>
         )}
         <div className="p-6 flex flex-col flex-1">
-          <h3 className="text-xl font-semibold mb-2 group-hover:text-accent group-focus-within:text-accent transition-colors duration-200">
+          <h3 className="text-xl font-semibold mb-2 group-hover:underline group-focus-within:underline decoration-gray-300 dark:decoration-gray-700 underline-offset-4 transition-colors duration-200">
             {project.title}
           </h3>
           <p className="text-gray-600 dark:text-gray-400 line-clamp-3 flex-1">

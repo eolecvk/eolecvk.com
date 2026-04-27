@@ -25,7 +25,9 @@ export function getAllProjects(): Project[] {
         date: data.date || '',
         tags: data.tags || data.tag || [],
         current: data.current || false,
+        featured: data.featured || false,
         category: data.category || '',
+        metric: data.metric || '',
       }
     })
     .sort((a, b) => {
@@ -59,7 +61,18 @@ export function getProjectBySlug(slug: string) {
     slug,
     metadata,
     content,
+    readingMinutes: estimateReadingMinutes(content),
   }
+}
+
+function estimateReadingMinutes(content: string): number {
+  const stripped = content
+    .replace(/```[\s\S]*?```/g, ' ')
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/[#>*_`~\-]/g, ' ')
+  const words = stripped.split(/\s+/).filter(Boolean).length
+  return Math.max(1, Math.round(words / 220))
 }
 
 export function getAdjacentProjects(slug: string) {
@@ -69,6 +82,10 @@ export function getAdjacentProjects(slug: string) {
     prev: index > 0 ? projects[index - 1] : null,
     next: index < projects.length - 1 ? projects[index + 1] : null,
   }
+}
+
+export function getFeaturedProjects(): Project[] {
+  return getAllProjects().filter((p) => p.featured)
 }
 
 export function getAllProjectSlugs() {

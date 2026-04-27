@@ -3,14 +3,22 @@ tag:
   - MCP
   - LLM
   - fintech
-title: "Building an MCP Server for Financial Data"
-tagline: "SQL-over-MCP for credit analysis — what works, what breaks, and why LLMs fabricate financial metrics"
+title: "MCP Server for Financial Data"
+tagline: "SQL access for AI agents on a credit-analysis platform"
 description: "Designing a production MCP server for financial data: the tension between query flexibility and answer reliability"
 intro: "SQL-over-MCP for credit analysis — what works, what breaks, and why LLMs fabricate financial metrics"
 thumbnail: /images/projects/mcp-architecture.svg
 date: 2026-03-01T00:00:00.000Z
 current: true
+featured: true
 category: LLM applications
+stats:
+  - label: Protocol
+    value: MCP
+  - label: Surface
+    value: SQL
+  - label: Stage
+    value: Production
 ---
 
 **TL;DR** — *I'm building an MCP server that gives AI agents SQL access to corporate financial data. The hard part isn't security — it's that financial data stored as massive JSONB blobs causes LLMs to fabricate metrics they can't see. Benchmarking real analyst queries revealed the core tradeoff: flexibility vs. reliability.*
