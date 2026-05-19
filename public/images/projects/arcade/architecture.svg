@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" fill="none" font-family="system-ui, sans-serif">
+  <rect width="900" height="520" fill="#0f0f14"/>
+
+  <!-- Title -->
+  <text x="50" y="50" fill="#e8e8f0" font-size="26" font-weight="700">Logo-bearing walk-video</text>
+  <text x="370" y="50" fill="#00FF9C" font-size="26" font-weight="300">pipeline</text>
+  <text x="50" y="72" fill="#888" font-size="12">Free-form prompt + SVG logo → 4 s @ 16 fps, 1280×720</text>
+
+  <!-- ============ Inputs (left column) ============ -->
+  <rect x="40" y="120" width="150" height="50" rx="8" fill="#1a1a26" stroke="#00FF9C" stroke-width="1.5"/>
+  <text x="115" y="142" fill="#00FF9C" font-size="12" font-weight="600" text-anchor="middle">Text prompt</text>
+  <text x="115" y="159" fill="#888" font-size="10" text-anchor="middle">"red sneakers, VHS"</text>
+
+  <rect x="40" y="250" width="150" height="50" rx="8" fill="#1a1a26" stroke="#00FF9C" stroke-width="1.5"/>
+  <text x="115" y="272" fill="#00FF9C" font-size="12" font-weight="600" text-anchor="middle">Logo SVG</text>
+  <text x="115" y="289" fill="#888" font-size="10" text-anchor="middle">256 px mark / 1024 canvas</text>
+
+  <!-- Arrow: prompt -> rewriter -->
+  <line x1="190" y1="145" x2="225" y2="145" stroke="#00FF9C" stroke-width="1.5"/>
+  <polygon points="223,140 233,145 223,150" fill="#00FF9C"/>
+
+  <!-- ============ Rewriter ============ -->
+  <rect x="235" y="118" width="160" height="55" rx="8" fill="#1a1a26" stroke="#00FF9C" stroke-width="1.5"/>
+  <text x="315" y="138" fill="#e8e8f0" font-size="12" font-weight="600" text-anchor="middle">Prompt rewriter</text>
+  <text x="315" y="154" fill="#888" font-size="10" text-anchor="middle">gpt-4o-mini → slots:</text>
+  <text x="315" y="166" fill="#888" font-size="10" text-anchor="middle">shoe / scene / motion</text>
+
+  <!-- ============ Stage row (y≈250) ============ -->
+  <!-- T2I -->
+  <rect x="235" y="235" width="120" height="55" rx="8" fill="#1a1a26" stroke="#2a2a3a" stroke-width="1.5"/>
+  <text x="295" y="255" fill="#e8e8f0" font-size="12" font-weight="600" text-anchor="middle">T2I</text>
+  <text x="295" y="271" fill="#888" font-size="10" text-anchor="middle">FLUX-dev</text>
+  <text x="295" y="283" fill="#888" font-size="10" text-anchor="middle">white shoe / right</text>
+
+  <!-- Compose -->
+  <rect x="385" y="235" width="120" height="55" rx="8" fill="#1a1a26" stroke="#00FF9C" stroke-width="1.5"/>
+  <text x="445" y="255" fill="#00FF9C" font-size="12" font-weight="600" text-anchor="middle">Compose</text>
+  <text x="445" y="271" fill="#888" font-size="10" text-anchor="middle">Qwen-Edit (2 refs)</text>
+  <text x="445" y="283" fill="#888" font-size="10" text-anchor="middle">logo onto shoe</text>
+
+  <!-- Recolor -->
+  <rect x="535" y="235" width="120" height="55" rx="8" fill="#1a1a26" stroke="#2a2a3a" stroke-width="1.5"/>
+  <text x="595" y="255" fill="#e8e8f0" font-size="12" font-weight="600" text-anchor="middle">Recolor</text>
+  <text x="595" y="271" fill="#888" font-size="10" text-anchor="middle">Qwen-Edit (1 ref)</text>
+  <text x="595" y="283" fill="#888" font-size="10" text-anchor="middle">apply colorway</text>
+
+  <!-- Scene -->
+  <rect x="685" y="235" width="120" height="55" rx="8" fill="#1a1a26" stroke="#2a2a3a" stroke-width="1.5"/>
+  <text x="745" y="255" fill="#e8e8f0" font-size="12" font-weight="600" text-anchor="middle">Scene</text>
+  <text x="745" y="271" fill="#888" font-size="10" text-anchor="middle">Qwen-Edit (1 ref)</text>
+  <text x="745" y="283" fill="#888" font-size="10" text-anchor="middle">model walks</text>
+
+  <!-- I2V -->
+  <rect x="685" y="360" width="120" height="55" rx="8" fill="#1a1a26" stroke="#2a2a3a" stroke-width="1.5"/>
+  <text x="745" y="380" fill="#e8e8f0" font-size="12" font-weight="600" text-anchor="middle">I2V</text>
+  <text x="745" y="396" fill="#888" font-size="10" text-anchor="middle">Wan 2.2 14B</text>
+  <text x="745" y="408" fill="#888" font-size="10" text-anchor="middle">4 s @ 16 fps</text>
+
+  <!-- Video output -->
+  <rect x="535" y="360" width="120" height="55" rx="8" fill="#1a1a26" stroke="#00FF9C" stroke-width="1.5"/>
+  <text x="595" y="380" fill="#00FF9C" font-size="12" font-weight="600" text-anchor="middle">raw.mp4</text>
+  <text x="595" y="396" fill="#888" font-size="10" text-anchor="middle">1280×720</text>
+  <text x="595" y="408" fill="#888" font-size="10" text-anchor="middle">+ eval.json</text>
+
+  <!-- ============ Likeness gate (above compose) ============ -->
+  <rect x="385" y="380" width="120" height="55" rx="8" fill="#1a1a26" stroke="#00FF9C" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="445" y="400" fill="#00FF9C" font-size="12" font-weight="600" text-anchor="middle">Likeness gate</text>
+  <text x="445" y="416" fill="#888" font-size="10" text-anchor="middle">gpt-4o-mini vision</text>
+  <text x="445" y="428" fill="#888" font-size="10" text-anchor="middle">MATCH / MISMATCH</text>
+
+  <!-- ============ Orient guard (above T2I) ============ -->
+  <rect x="235" y="380" width="120" height="55" rx="8" fill="#1a1a26" stroke="#2a2a3a" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="295" y="400" fill="#e8e8f0" font-size="12" font-weight="600" text-anchor="middle">Orient guard</text>
+  <text x="295" y="416" fill="#888" font-size="10" text-anchor="middle">gpt-4o vision L/R</text>
+  <text x="295" y="428" fill="#888" font-size="10" text-anchor="middle">mirror if needed</text>
+
+  <!-- ============ Arrows ============ -->
+  <!-- Rewriter → T2I -->
+  <line x1="295" y1="173" x2="295" y2="232" stroke="#00FF9C" stroke-width="1.5"/>
+  <polygon points="290,230 295,240 300,230" fill="#00FF9C"/>
+
+  <!-- T2I → Compose -->
+  <line x1="355" y1="262" x2="385" y2="262" stroke="#00FF9C" stroke-width="1.5"/>
+  <polygon points="383,257 393,262 383,267" fill="#00FF9C"/>
+
+  <!-- Compose → Recolor -->
+  <line x1="505" y1="262" x2="535" y2="262" stroke="#00FF9C" stroke-width="1.5"/>
+  <polygon points="533,257 543,262 533,267" fill="#00FF9C"/>
+
+  <!-- Recolor → Scene -->
+  <line x1="655" y1="262" x2="685" y2="262" stroke="#00FF9C" stroke-width="1.5"/>
+  <polygon points="683,257 693,262 683,267" fill="#00FF9C"/>
+
+  <!-- Scene → I2V (down) -->
+  <line x1="745" y1="290" x2="745" y2="357" stroke="#00FF9C" stroke-width="1.5"/>
+  <polygon points="740,355 745,365 750,355" fill="#00FF9C"/>
+
+  <!-- I2V → output (left) -->
+  <line x1="685" y1="387" x2="655" y2="387" stroke="#00FF9C" stroke-width="1.5"/>
+  <polygon points="657,382 647,387 657,392" fill="#00FF9C"/>
+
+  <!-- Logo → Compose (curves up + right) -->
+  <path d="M 190 275 C 280 275, 360 320, 415 295" stroke="#00FF9C" stroke-width="1.5" fill="none"/>
+  <polygon points="416,290 425,294 415,300" fill="#00FF9C"/>
+  <text x="220" y="320" fill="#888" font-size="10">2nd reference</text>
+
+  <!-- Compose ↔ Likeness gate (down then loop back) -->
+  <line x1="445" y1="290" x2="445" y2="377" stroke="#00FF9C" stroke-width="1.5"/>
+  <polygon points="440,375 445,385 450,375" fill="#00FF9C"/>
+  <!-- Retry arrow: gate → compose -->
+  <path d="M 505 405 C 540 405, 540 320, 495 295" stroke="#FF6B6B" stroke-width="1.5" fill="none" stroke-dasharray="4 3"/>
+  <polygon points="498,290 488,294 498,300" fill="#FF6B6B"/>
+  <text x="513" y="395" fill="#FF6B6B" font-size="10">retry seed</text>
+  <text x="513" y="408" fill="#FF6B6B" font-size="10">(≤ N×)</text>
+
+  <!-- Orient guard ↔ T2I -->
+  <line x1="295" y1="290" x2="295" y2="377" stroke="#2a2a3a" stroke-width="1.5"/>
+  <polygon points="290,375 295,385 300,375" fill="#2a2a3a"/>
+  <path d="M 355 405 C 380 405, 380 320, 345 295" stroke="#2a2a3a" stroke-width="1.5" fill="none" stroke-dasharray="4 3"/>
+  <polygon points="348,290 338,294 348,300" fill="#2a2a3a"/>
+
+  <!-- Footer / legend -->
+  <rect x="40" y="470" width="12" height="12" fill="#00FF9C"/>
+  <text x="58" y="481" fill="#888" font-size="11">load-bearing for logo fidelity</text>
+  <line x1="280" y1="475" x2="305" y2="475" stroke="#FF6B6B" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="312" y="481" fill="#888" font-size="11">retry loop (gate)</text>
+  <line x1="430" y1="475" x2="455" y2="475" stroke="#2a2a3a" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="462" y="481" fill="#888" font-size="11">aux check</text>
+</svg>
