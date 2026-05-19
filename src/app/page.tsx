@@ -21,7 +21,7 @@ export default function HomePage() {
   )
 
   return (
-    <div className="max-w-2xl mx-auto px-6 pt-16 md:pt-28 pb-16">
+    <div className="max-w-2xl mx-auto px-6 pt-10 md:pt-14 pb-16">
       {/* Hero */}
       <section>
         <div className="flex items-start gap-5">
