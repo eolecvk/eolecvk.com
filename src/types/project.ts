@@ -26,4 +26,6 @@ export interface ProjectMetadata {
   category?: string
   metric?: string
   stats?: { label: string; value: string }[]
+  hideHero?: boolean
+  hideMeta?: boolean
 }

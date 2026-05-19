@@ -47,62 +47,50 @@ function ProjectRow({ p }: { p: Project }) {
               {p.tagline}
             </p>
           )}
-          {p.category && (
-            <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.08em] text-gray-400 dark:text-gray-600">
-              {p.category}
-            </p>
-          )}
         </div>
       </Link>
     </li>
   )
 }
 
-function LabRow() {
-  return (
-    <li>
-      <div className="flex items-start gap-5 py-5">
-        <div className="w-20 h-12 sm:w-24 sm:h-14 flex-shrink-0 rounded overflow-hidden bg-white dark:bg-gray-900 border border-dashed border-gray-300 dark:border-gray-700 flex items-center justify-center">
-          <img src="/logo.svg" alt="" className="w-8 h-8 object-contain opacity-90" />
-        </div>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-baseline gap-3">
-            <span className="font-medium text-gray-900 dark:text-gray-100 truncate">
-              CreativeRush Media Lab
-            </span>
-          </div>
-          <p className="mt-1 text-sm text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-2">
-            Co-designed AI experiments with film creators
-          </p>
-          <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.08em] text-gray-400 dark:text-gray-600">
-            2024
-          </p>
-        </div>
-      </div>
-    </li>
-  )
-}
-
 export default function ProjectsPage() {
   const projects = getAllProjects()
-  const sorted = [...projects].sort((a, b) => {
+  const sortFn = (a: Project, b: Project) => {
     if (a.current && !b.current) return -1
     if (!a.current && b.current) return 1
     const ad = a.date ? new Date(a.date as unknown as string).getTime() : 0
     const bd = b.date ? new Date(b.date as unknown as string).getTime() : 0
     return bd - ad
-  })
+  }
+  const isMedia = (p: Project) => p.category === 'Image/Video'
+  const agentic = projects.filter((p) => !isMedia(p)).sort(sortFn)
+  const media = projects.filter(isMedia).sort(sortFn)
 
   return (
     <div className="max-w-2xl mx-auto px-6 pt-6 md:pt-8 pb-12">
       <h1 className="sr-only">Projects</h1>
 
-      <ul className="divide-y divide-gray-200 dark:divide-gray-800 border-y border-gray-200 dark:border-gray-800">
-        {sorted.map((p) => (
-          <ProjectRow key={p.slug} p={p} />
-        ))}
-        <LabRow />
-      </ul>
+      <section>
+        <h2 className="font-mono text-[11px] uppercase tracking-[0.12em] text-gray-500 dark:text-gray-500 mb-2">
+          Agentic Applications
+        </h2>
+        <ul className="divide-y divide-gray-200 dark:divide-gray-800 border-y border-gray-200 dark:border-gray-800">
+          {agentic.map((p) => (
+            <ProjectRow key={p.slug} p={p} />
+          ))}
+        </ul>
+      </section>
+
+      <section className="mt-12">
+        <h2 className="font-mono text-[11px] uppercase tracking-[0.12em] text-gray-500 dark:text-gray-500 mb-2">
+          GenAI for Media
+        </h2>
+        <ul className="divide-y divide-gray-200 dark:divide-gray-800 border-y border-gray-200 dark:border-gray-800">
+          {media.map((p) => (
+            <ProjectRow key={p.slug} p={p} />
+          ))}
+        </ul>
+      </section>
     </div>
   )
 }
