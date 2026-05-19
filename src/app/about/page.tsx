@@ -4,9 +4,6 @@ import {
   ROLE,
   POSITIONING,
   LINKS,
-  CAL_URL,
-  CAL_ENABLED,
-  LINKEDIN_URL,
 } from '@/lib/profile'
 
 export const metadata = {
@@ -122,7 +119,7 @@ const EARLIER: { company: string; brief: string; dates: string }[] = [
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="text-[11px] font-bold uppercase tracking-[0.08em] text-gray-500 dark:text-gray-500 mb-6">
+    <h2 className="font-mono text-[11px] uppercase tracking-[0.12em] text-gray-500 dark:text-gray-500 mb-6">
       {children}
     </h2>
   )
@@ -268,47 +265,13 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Get in touch */}
-      <section className="mb-12">
-        <SectionHeading>Get in touch</SectionHeading>
-        <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed max-w-[60ch]">
-          <a
-            href={CAL_ENABLED ? CAL_URL : LINKEDIN_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-medium text-gray-900 dark:text-gray-100 underline decoration-gray-300 dark:decoration-gray-700 underline-offset-4 hover:decoration-gray-900 dark:hover:decoration-gray-100 transition-colors"
-          >
-            Book a call
-          </a>
-          {' '}— or find me on{' '}
-          <a
-            href={LINKS.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-medium text-gray-700 dark:text-gray-300 underline decoration-gray-200 dark:decoration-gray-800 underline-offset-4 hover:text-gray-900 dark:hover:text-gray-100 hover:decoration-gray-900 dark:hover:decoration-gray-100 transition-colors"
-          >
-            LinkedIn
-          </a>{' '}
-          and{' '}
-          <a
-            href={LINKS.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-medium text-gray-700 dark:text-gray-300 underline decoration-gray-200 dark:decoration-gray-800 underline-offset-4 hover:text-gray-900 dark:hover:text-gray-100 hover:decoration-gray-900 dark:hover:decoration-gray-100 transition-colors"
-          >
-            GitHub
-          </a>
-          .
-        </p>
-      </section>
-
       {/* PDF download */}
       <div className="mt-12 pt-6 border-t border-gray-200 dark:border-gray-800 flex items-center justify-center gap-3 text-[11px] font-mono">
         <a
           href="/resume-ats.pdf"
           download
           aria-label="Download resume as PDF"
-          className="text-gray-500 dark:text-gray-500 hover:text-gray-900 dark:hover:text-gray-100 transition-colors uppercase tracking-[0.08em]"
+          className="text-gray-500 dark:text-gray-500 hover:text-gray-900 dark:hover:text-gray-100 transition-colors uppercase tracking-[0.12em]"
         >
           ↓ Download PDF
         </a>
