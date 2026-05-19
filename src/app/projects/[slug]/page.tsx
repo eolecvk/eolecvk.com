@@ -81,25 +81,27 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
             {project.metadata.title}
           </h1>
 
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mt-3 font-mono text-xs text-gray-500 dark:text-gray-500">
-            {project.metadata.date && (
-              <span>{formatDate(project.metadata.date)}</span>
-            )}
-            {project.metadata.current && (
-              <>
-                <span className="text-gray-300 dark:text-gray-700">·</span>
-                <span className="inline-flex items-center gap-1.5">
-                  <span
-                    aria-hidden
-                    className="inline-block w-[6px] h-[6px] rounded-full bg-gray-900 dark:bg-gray-100"
-                  />
-                  Active
-                </span>
-              </>
-            )}
-            <span className="text-gray-300 dark:text-gray-700">·</span>
-            <span>{project.readingMinutes} min read</span>
-          </div>
+          {!project.metadata.hideMeta && (
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mt-3 font-mono text-xs text-gray-500 dark:text-gray-500">
+              {project.metadata.date && (
+                <span>{formatDate(project.metadata.date)}</span>
+              )}
+              {project.metadata.current && (
+                <>
+                  <span className="text-gray-300 dark:text-gray-700">·</span>
+                  <span className="inline-flex items-center gap-1.5">
+                    <span
+                      aria-hidden
+                      className="inline-block w-[6px] h-[6px] rounded-full bg-gray-900 dark:bg-gray-100"
+                    />
+                    Active
+                  </span>
+                </>
+              )}
+              <span className="text-gray-300 dark:text-gray-700">·</span>
+              <span>{project.readingMinutes} min read</span>
+            </div>
+          )}
 
           {project.metadata.intro && (
             <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed mt-5 max-w-[60ch]">
@@ -121,7 +123,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
         </header>
 
         {/* Hero image — minimal frame */}
-        {project.metadata.thumbnail && (
+        {project.metadata.thumbnail && !project.metadata.hideHero && (
           <img
             src={project.metadata.thumbnail}
             alt={project.metadata.title}
