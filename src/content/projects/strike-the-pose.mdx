@@ -5,249 +5,110 @@ tag:
   - eval
 title: "Strike the Pose"
 tagline: "Branded short-video generator"
-description: "Stage-graph pipeline (FLUX + Qwen-Image-Edit + Wan 2.2) with a vision-LLM likeness gate that retries the compose step until the logo reads. Quality broken down stage-by-stage."
-intro: "Branded short-video generator — what works, what does not, and the visual diary that taught me which."
+description: "Stage-graph pipeline (FLUX + Qwen-Image-Edit + Wan 2.2) with a vision-LLM likeness gate that retries compose until the logo reads."
+intro: "Branded short-video generator. The headline win: a vision-LLM gate lifts the usable-output rate from 63% to 88%."
 thumbnail: https://raw.githubusercontent.com/eolecvk/strike-the-pose/main/assets/outputs/20260519_053844_c2e53f/raw_preview.webp
+hideHero: true
 date: 2026-05-19T00:00:00.000Z
 current: false
 featured: true
 category: Image/Video
-stats:
-  - label: Pipeline
-    value: 6-stage
-  - label: Output
-    value: 4 s / 16 fps
-  - label: Reliability
-    value: 14 / 16 runs
 ---
 
-**TL;DR** — One free-form prompt plus a brand logo, out comes a 4-second clip of a model walking in sneakers branded with that logo. The shipping pipeline decouples logo placement from scene composition and adds a vision-LLM gate that retries compose until the logo reads. Across a 4×4 prompt/seed sweep: **14 / 16 outputs usable**, gate lifts pass-rate from ~63% first-attempt to ~88% final — a **+25 pp retry-delta**.
-
-**Stack:** Python · FLUX-dev · Qwen-Image-Edit-2511 · Wan 2.2 14B I2V · gpt-4o-mini (rewriter + likeness gate) · ComfyUI · OWLv2 — [github.com/eolecvk/strike-the-pose](https://github.com/eolecvk/strike-the-pose)
-
-<br />
-<p align="center">
-  <img src="https://raw.githubusercontent.com/eolecvk/strike-the-pose/main/assets/outputs/20260519_053844_c2e53f/raw_preview.webp" alt="branded walk video — navy canvas sneakers, misty harbor at dawn, 90s VHS grain" width="640" />
-  <br/>
-  <sub><em>prompt:</em> <code>navy canvas sneakers on a misty harbor at dawn, 90s VHS analog grain</code> &nbsp;·&nbsp; <em>logo:</em> Arcade</sub>
-</p>
-<br />
-
-## A gallery, before the analysis
-
-Four prompts from the same pipeline. Every clip is one prompt + the same SVG logo in, one 4 s walk video out.
+One free-form prompt + a brand logo → a 4-second clip of a model walking in branded sneakers. The shipping pipeline decouples logo placement from scene composition, and a vision-LLM likeness gate retries the compose step until the logo reads.
 
 <table>
   <tr>
     <td align="center" width="50%">
-      <img src="https://raw.githubusercontent.com/eolecvk/strike-the-pose/main/assets/outputs/20260519_021725_15b486/raw_preview.webp" alt="cream low-top in a minimalist studio, B&W film" width="440" />
-      <br/><sub><em>cream low-top, minimalist studio, old black-and-white movie</em></sub>
+      <img src="https://raw.githubusercontent.com/eolecvk/strike-the-pose/main/assets/outputs/20260519_053844_c2e53f/raw_preview.webp" alt="navy canvas sneakers, misty harbor at dawn, VHS grain" width="440" />
+      <br/><sub><em>navy canvas, misty harbor at dawn, VHS grain</em></sub>
     </td>
+    <td align="center" width="50%">
+      <img src="https://raw.githubusercontent.com/eolecvk/strike-the-pose/main/assets/outputs/20260519_021725_15b486/raw_preview.webp" alt="cream low-top in a minimalist studio, B&W film" width="440" />
+      <br/><sub><em>cream low-top, minimalist studio, B&amp;W</em></sub>
+    </td>
+  </tr>
+  <tr>
     <td align="center" width="50%">
       <img src="https://raw.githubusercontent.com/eolecvk/strike-the-pose/main/assets/outputs/20260518_010401_eceeb4/raw_preview.webp" alt="all-black runners on wet pavement neon" width="440" />
       <br/><sub><em>all-black runners, wet pavement neon</em></sub>
     </td>
-  </tr>
-  <tr>
     <td align="center" width="50%">
       <img src="https://raw.githubusercontent.com/eolecvk/strike-the-pose/main/assets/outputs/20260518_011335_bcff05/raw_preview.webp" alt="olive suede runner on a forest trail" width="440" />
-      <br/><sub><em>olive suede runner, forest trail</em></sub>
-    </td>
-    <td align="center" width="50%">
-      <img src="https://raw.githubusercontent.com/eolecvk/strike-the-pose/main/assets/outputs/20260517_085730_870671/raw_preview.webp" alt="red sneakers" width="440" />
-      <br/><sub><em>red sneakers</em></sub>
+      <br/><sub><em>olive suede, forest trail</em></sub>
     </td>
   </tr>
 </table>
 
-## What "good" means here
-
-Two axes — both have to be satisfied for a generation to delight:
-
-- **High-quality video.** Time-consistent, cross-frame consistent, no image-quality issues, no hallucinations.
-- **Faithful to the request.** Logo reads like the input logo. Shoe design, model, scene, and video aesthetic match the prompt.
-
-The rest of the page walks the three artefacts the pipeline produces — composed product shot, scene seed, video motion — and grades them on those axes. Where things break, you can see the seam.
-
-## Stage 1 — Composed product shot
+## Product shot
 
 <br />
 <p align="center">
   <img src="https://raw.githubusercontent.com/eolecvk/strike-the-pose/main/assets/outputs/20260518_005807_80b36e/product_shot.png" alt="navy canvas shoe with arcade logo on lateral panel" width="220" />
-  <br/>
-  <sub>Logo composed onto the shoe's lateral panel as rendered material — not a sticker</sub>
 </p>
 <br />
 
-<table>
-  <tr><th>Aspect</th><th>Dimension</th><th>Status</th></tr>
-  <tr>
-    <td rowspan="5"><b>Logo</b></td>
-    <td>Likeness vs input</td>
-    <td>✅ Satisfactory on <b>14 / 16</b> generations</td>
-  </tr>
-  <tr>
-    <td>Automated likeness gate</td>
-    <td>✅ VLM reliably flags issues — off-likeness logos never shipped</td>
-  </tr>
-  <tr>
-    <td>Multi-logo</td>
-    <td>❌ Single logo only; no multi-mark composition</td>
-  </tr>
-  <tr>
-    <td>Texture control</td>
-    <td>❌ No texture spec; defaults to printed / embroidered</td>
-  </tr>
-  <tr>
-    <td>Arbitrary logo input</td>
-    <td>❌ Only tested with the supplied SVG; coloured / complex logos untested</td>
-  </tr>
-  <tr>
-    <td rowspan="3"><b>Shoe</b></td>
-    <td>Shape · silhouette · colourway</td>
-    <td>✅ Reliable; no rejections on shoe appearance</td>
-  </tr>
-  <tr>
-    <td>Material control</td>
-    <td>⚠️ Reliable for canvas / leather; suede + complex materials can confuse compose</td>
-  </tr>
-  <tr>
-    <td>Logo placement (outside vs inside)</td>
-    <td>❌ Default outside (lateral) works; explicit placement directives ("logo on heel", "inside as well") do not land consistently</td>
-  </tr>
-</table>
+**Lands reliably.** Logo likeness, shoe silhouette/colourway, canvas + leather materials. A VLM likeness gate after compose catches the off-likeness logos before they leave the stage.
 
-**Insight.** The structural win is *decoupling* logo placement from scene composition. Earlier iterations tried to do both in one shot and the logo was always the first thing to break. Native multi-reference compose (Qwen-Edit) plus a retry gate is what gets us to measurable reliability.
+**Doesn't yet.** Multi-logo composition, explicit texture control, explicit placement directives ("logo on heel"), suede + complex materials.
 
-## Stage 2 — Scene seed
+> Decoupling logo placement from scene composition is the structural win. Earlier iterations tried to do both in one shot and the logo was always the first thing to break.
+
+## Scene seed
 
 <br />
 <p align="center">
   <img src="https://raw.githubusercontent.com/eolecvk/strike-the-pose/main/assets/outputs/20260518_005807_80b36e/scene_seed.png" alt="model wearing the navy canvas shoes on a misty harbor dock" width="320" />
-  <br/>
-  <sub>Model placed in scene — still image, pre-animation</sub>
 </p>
 <br />
 
-<table>
-  <tr><th>Aspect</th><th>Dimension</th><th>Status</th></tr>
-  <tr>
-    <td><b>Scene</b></td>
-    <td>Background · setting · lighting</td>
-    <td>✅ Reliable; no rejections on scene fidelity</td>
-  </tr>
-  <tr>
-    <td rowspan="2"><b>Model</b></td>
-    <td>Attributes (demographics, wardrobe)</td>
-    <td>⚠️ Rewriter routes demographic + wardrobe phrases into the scene prompt; possible but not thoroughly tested</td>
-  </tr>
-  <tr>
-    <td>Walking direction · pose</td>
-    <td>⚠️ Hints like "three-quarter back view", "low-angle hero" accepted; control is possible but not thoroughly tested</td>
-  </tr>
-  <tr>
-    <td><b>Brand surface</b></td>
-    <td>Logo on scene element (poster · billboard · graffiti)</td>
-    <td>❌ Chained pass paints a logo-shaped mark on the named surface, but the shoe logo regresses and the wall logo drifts — needs multi-logo likeness checks</td>
-  </tr>
-</table>
+**Lands reliably.** Scene background, setting, and lighting. The rewriter routes demographic and pose hints into the right prompt slot.
 
-**Insight.** Scene quality "just works" once the product shot is locked. The interesting failure is **chained branding** — putting the logo on a billboard *and* on the shoe simultaneously breaks both. The gate only watches one surface today; multi-surface gating is the next architectural step.
+**Doesn't yet.** Chained branding — putting the logo on a billboard *and* on the shoe simultaneously breaks both. The gate only watches one surface today; multi-surface gating is the next architectural step.
 
-## Stage 3 — Video motion
+## Video motion
 
 <br />
 <p align="center">
-  <img src="https://raw.githubusercontent.com/eolecvk/strike-the-pose/main/assets/outputs/20260518_005807_80b36e/raw_preview.webp" alt="4-second walk video preview — model walking on the misty harbor dock" width="320" />
+  <img src="https://raw.githubusercontent.com/eolecvk/strike-the-pose/main/assets/outputs/20260518_005807_80b36e/raw_preview.webp" alt="4-second walk video preview" width="320" />
   <br/>
-  <sub>4 s @ 16 fps, 1280×720 (Wan 2.2 14B I2V)</sub>
+  <sub>4 s @ 16 fps, 1280×720</sub>
 </p>
 <br />
 
-<table>
-  <tr><th>Aspect</th><th>Dimension</th><th>Status</th></tr>
-  <tr>
-    <td rowspan="4"><b>Video</b></td>
-    <td>Cross-frame consistency</td>
-    <td>✅ Stable — no identity shift or flicker between frames</td>
-  </tr>
-  <tr>
-    <td>Time coherence</td>
-    <td>⚠️ Videos occasionally slow down mid-clip; pacing not fully coherent</td>
-  </tr>
-  <tr>
-    <td>Image quality (sharpness, motion blur)</td>
-    <td>✅ Consistently good</td>
-  </tr>
-  <tr>
-    <td>Hallucination</td>
-    <td>⚠️ Text overlays slip through (VLM catches obvious subtitle bars, misses small corner overlays ≈ 3% of frame). OCR pre-check pending.</td>
-  </tr>
-  <tr>
-    <td rowspan="2"><b>Camera</b></td>
-    <td>Movement</td>
-    <td>❌ Single subtle camera push only — no orbit / dolly / specific paths</td>
-  </tr>
-  <tr>
-    <td>Framing</td>
-    <td>⚠️ Camera focuses on shoes + lower body; full-body framing not steerable</td>
-  </tr>
-  <tr>
-    <td><b>Aesthetic</b></td>
-    <td>Style filters (e.g. "90s VHS")</td>
-    <td>⚠️ Works in-prompt with logo intact; retries gate text hallucinations. Stronger path: LoRA + video-to-video filter.</td>
-  </tr>
-</table>
+**Lands reliably.** Cross-frame identity, image sharpness, low motion blur.
 
-**Insight.** Cross-frame identity is solid; the residual failure modes are *temporal* (mid-clip slowdown) and *textual* (hallucinated subtitles). Wan is a motion model, not a style model — when an aesthetic directive does land, it usually lands in the still-image step and the motion model just carries it forward.
+**Doesn't yet.** Mid-clip pacing wobbles, hallucinated subtitle overlays (caught by VLM at the obvious end, not yet at the corner-text end), camera movement beyond a single subtle push, aesthetic filters at strength.
+
+> Wan is a motion model, not a style model. Aesthetic directives land best when injected at the still-image step and carried forward.
 
 ## Experiments
 
-Two write-ups from the lab notebook. Each one isolates a single load-bearing question.
+Two write-ups from the lab notebook. Each isolates a single load-bearing question.
 
 <table>
   <tr>
-    <th width="28%">Report</th>
-    <th width="32%">Question</th>
-    <th>Main insights</th>
+    <th width="32%">Report</th>
+    <th>Headline finding</th>
   </tr>
   <tr>
     <td><a href="https://github.com/eolecvk/strike-the-pose/blob/main/experiments/likeness-retry-gate/report.md">Likeness-retry gate</a></td>
-    <td>Can a VLM gate catch hallucinated logos at compose time?</td>
-    <td>
-      <ul>
-        <li>Yes — failure rate drops from <b>50% → 12%</b>.</li>
-        <li><b>3 retries</b> captures most of the win; further retries add little.</li>
-      </ul>
-    </td>
+    <td>VLM gate cuts the logo-failure rate from 50% to 12%. Three retries captures almost all of the win.</td>
   </tr>
   <tr>
     <td><a href="https://github.com/eolecvk/strike-the-pose/blob/main/experiments/aesthetic-rigging/report.md">Setting an aesthetic</a></td>
-    <td>How to land VHS / anime / B&W / cyberpunk-noir reliably without losing the logo?</td>
-    <td>
-      <ul>
-        <li>Asking the <em>animation</em> step for a style → invisible.</li>
-        <li>Asking the <em>still-image</em> step → visible, and the logo survives.</li>
-        <li>A separate restyle pass → bolder look but destroys the logo.</li>
-        <li>Fake subtitles slip in; an AI checker catches them and re-rolls.</li>
-        <li>Next paths: a style LoRA, or a video-to-video filter pass.</li>
-      </ul>
-    </td>
+    <td>Style directives are invisible to the motion model, visible at the still-image step, and destructive in a separate restyle pass. Stronger paths: style LoRA, video-to-video filter.</td>
   </tr>
 </table>
 
-## Where it goes next
+## Next
 
-A short list, drawn from the dimensions marked ⚠️ / ❌ above:
+1. **Multi-surface logo gating** — likeness checks on every chained brand surface, not just the shoe.
+2. **OCR pre-check on frames** — the VLM misses corner text; OCR will not.
+3. **Video-to-video stylization** so aesthetic directives actually land at strength.
 
-1. **Multi-surface logo control** — gate the wall, the shoe, and any chained brand surface as separate likeness checks.
-2. **Temporal pacing metric** — flag mid-clip slowdowns the same way the likeness gate flags off-likeness logos.
-3. **OCR pre-check on frames** — the VLM misses corner text; OCR will not.
-4. **Video-to-video stylization** so aesthetic directives actually land at strength.
-5. **Camera-movement control** — at minimum, orbit / dolly / static as discrete primitives.
+---
 
-## Architecture & deployment
+**Stack:** Python · FLUX-dev · Qwen-Image-Edit-2511 · Wan 2.2 14B I2V · gpt-4o-mini (rewriter + likeness gate) · ComfyUI · OWLv2
 
-- [Pipeline architecture](https://github.com/eolecvk/strike-the-pose/blob/main/docs/ARCHITECTURE.md)
-- [Deployment instructions](https://github.com/eolecvk/strike-the-pose/blob/main/docs/USAGE.md)
-- [Repo](https://github.com/eolecvk/strike-the-pose)
+[Repo](https://github.com/eolecvk/strike-the-pose) · [Architecture](https://github.com/eolecvk/strike-the-pose/blob/main/docs/ARCHITECTURE.md) · [Deployment](https://github.com/eolecvk/strike-the-pose/blob/main/docs/USAGE.md)

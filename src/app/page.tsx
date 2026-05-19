@@ -1,14 +1,25 @@
-import NowLine from '@/components/NowLine'
+import Link from 'next/link'
+import { getProjectBySlug } from '@/lib/mdx'
 import {
   NAME,
   ROLE,
+  LINKS,
   CAL_URL,
   CAL_ENABLED,
   LINKEDIN_URL,
-  LINKS,
 } from '@/lib/profile'
 
+const SELECTED_SLUGS = [
+  'strike-the-pose',
+  'llm-pipeline',
+  'stable-diffusion-benchmark',
+] as const
+
 export default function HomePage() {
+  const selected = SELECTED_SLUGS.map((slug) => getProjectBySlug(slug)).filter(
+    (p): p is NonNullable<typeof p> => p !== null,
+  )
+
   return (
     <div className="max-w-2xl mx-auto px-6 pt-16 md:pt-28 pb-16">
       {/* Hero */}
@@ -28,32 +39,98 @@ export default function HomePage() {
             <p className="mt-1.5 text-sm text-gray-500 dark:text-gray-500 font-mono">
               {ROLE}
             </p>
+            <div className="mt-5 grid grid-cols-2 gap-3 max-w-md">
+              <a
+                href={LINKS.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center justify-center gap-2 px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-900 hover:border-gray-900 hover:text-white dark:hover:bg-gray-100 dark:hover:border-gray-100 dark:hover:text-gray-900 transition-colors"
+                aria-label="Message on LinkedIn"
+              >
+                <svg
+                  aria-hidden
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="14"
+                  fill="currentColor"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zM4.943 12.248V6.169H2.542v6.079zm-1.2-6.911a1.252 1.252 0 1 0 0-2.501 1.252 1.252 0 0 0 0 2.501m4.908 6.911V8.91q0-.262.045-.453a1.94 1.94 0 0 1 .55-.794c.21-.149.38-.226.564-.226.501 0 .753.252.753.756v3.953h2.4V8.736c0-1.078-.32-1.928-.96-2.55-.638-.622-1.486-.933-2.543-.933-.654 0-1.198.143-1.633.43-.435.286-.74.66-.916 1.12V5.886H6.516a32 32 0 0 1 .025 1.41v4.952z"/>
+                </svg>
+                <span>Message</span>
+              </a>
+              <a
+                href={CAL_ENABLED ? CAL_URL : LINKEDIN_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center justify-center gap-2 px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-900 hover:border-gray-900 hover:text-white dark:hover:bg-gray-100 dark:hover:border-gray-100 dark:hover:text-gray-900 transition-colors"
+                aria-label="Book a call on Cal.com"
+              >
+                <svg
+                  aria-hidden
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  viewBox="0 0 24 24"
+                >
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                  <line x1="16" y1="2" x2="16" y2="6" />
+                  <line x1="8" y1="2" x2="8" y2="6" />
+                  <line x1="3" y1="10" x2="21" y2="10" />
+                </svg>
+                <span>Book a call</span>
+              </a>
+            </div>
           </div>
         </div>
 
-        <p className="mt-8 md:mt-10 max-w-[60ch] text-base text-gray-700 dark:text-gray-300 leading-relaxed">
-          <NowLine />
-        </p>
-        <p className="mt-8 max-w-[60ch] text-base text-gray-700 dark:text-gray-300 leading-relaxed">
-          <a
-            href={LINKS.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-medium text-gray-900 dark:text-gray-100 underline decoration-gray-300 dark:decoration-gray-700 underline-offset-2 hover:decoration-gray-900 dark:hover:decoration-gray-100 transition-colors"
-          >
-            Message on LinkedIn
-          </a>{' '}
-          or{' '}
-          <a
-            href={CAL_ENABLED ? CAL_URL : LINKEDIN_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-medium text-gray-900 dark:text-gray-100 underline decoration-gray-300 dark:decoration-gray-700 underline-offset-2 hover:decoration-gray-900 dark:hover:decoration-gray-100 transition-colors"
-          >
-            find time to chat
-          </a>
-          .
-        </p>
+      </section>
+
+      {/* Selected work */}
+      <section className="mt-16 md:mt-20">
+        <ul className="divide-y divide-gray-200 dark:divide-gray-800 border-y border-gray-200 dark:border-gray-800">
+          {selected.map((p) => (
+            <li key={p.slug}>
+              <Link
+                href={`/projects/${p.slug}`}
+                className="group flex items-start gap-5 py-5"
+              >
+                <div className="w-20 h-12 sm:w-24 sm:h-14 flex-shrink-0 rounded overflow-hidden bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
+                  {p.metadata.thumbnail && (
+                    <img
+                      src={p.metadata.thumbnail}
+                      alt=""
+                      loading="lazy"
+                      className="w-full h-full object-cover"
+                    />
+                  )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-baseline gap-3">
+                    <span className="font-medium text-gray-900 dark:text-gray-100 group-hover:underline decoration-gray-300 dark:decoration-gray-700 underline-offset-4 truncate">
+                      {p.metadata.title}
+                    </span>
+                    {p.metadata.metric && (
+                      <span className="hidden sm:inline ml-auto font-mono text-xs italic text-gray-500 dark:text-gray-500 whitespace-nowrap">
+                        {p.metadata.metric}
+                      </span>
+                    )}
+                  </div>
+                  {p.metadata.tagline && (
+                    <p className="mt-1 text-sm text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-2">
+                      {p.metadata.tagline}
+                    </p>
+                  )}
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </section>
     </div>
   )

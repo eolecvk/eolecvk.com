@@ -36,7 +36,7 @@ function ProjectRow({ p }: { p: Project }) {
                 </span>
               )}
               {p.current && (
-                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-gray-700 dark:text-gray-300 border border-gray-400 dark:border-gray-600 px-1.5 py-0.5 rounded-sm whitespace-nowrap">
+                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-gray-700 dark:text-gray-300 border border-gray-400 dark:border-gray-600 px-1.5 py-0.5 rounded-sm whitespace-nowrap">
                   WIP
                 </span>
               )}

@@ -13,8 +13,8 @@ module.exports = {
         'dark': '#171219',
       },
       fontFamily: {
-        'sans': ['Inter', 'sans-serif'],
-        'mono': ['JetBrains Mono', 'monospace'],
+        'sans': ['var(--font-sans)', 'Inter', 'system-ui', 'sans-serif'],
+        'mono': ['var(--font-mono)', 'JetBrains Mono', 'ui-monospace', 'monospace'],
       },
       spacing: {
         'xs': '0.5rem',    // 8px
