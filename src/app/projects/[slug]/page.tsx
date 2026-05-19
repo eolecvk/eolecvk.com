@@ -114,7 +114,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
               {project.metadata.stats.map((s, i) => (
                 <span key={s.label}>
                   {i > 0 && <span className="text-gray-300 dark:text-gray-700"> · </span>}
-                  <span className="text-gray-400 dark:text-gray-600 uppercase tracking-[0.08em]">{s.label}</span>{' '}
+                  <span className="text-gray-400 dark:text-gray-600 uppercase tracking-[0.12em]">{s.label}</span>{' '}
                   <span className="text-gray-700 dark:text-gray-300">{s.value}</span>
                 </span>
               ))}
@@ -173,7 +173,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
                 href={`/projects/${prev.slug}`}
                 className="group inline-flex items-baseline gap-2"
               >
-                <span className="font-mono text-[10px] uppercase tracking-[0.08em] text-gray-400 dark:text-gray-600">
+                <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-gray-400 dark:text-gray-600">
                   ← Previous
                 </span>
                 <span className="font-medium text-gray-700 dark:text-gray-300 group-hover:underline decoration-gray-300 dark:decoration-gray-700 underline-offset-4 truncate">
@@ -191,7 +191,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
                 <span className="font-medium text-gray-700 dark:text-gray-300 group-hover:underline decoration-gray-300 dark:decoration-gray-700 underline-offset-4 truncate">
                   {next.title}
                 </span>
-                <span className="font-mono text-[10px] uppercase tracking-[0.08em] text-gray-400 dark:text-gray-600">
+                <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-gray-400 dark:text-gray-600">
                   Next →
                 </span>
               </Link>

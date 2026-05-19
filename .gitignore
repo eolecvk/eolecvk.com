@@ -39,3 +39,6 @@ next-env.d.ts
 # IDE settings
 .vscode/
 .idea/
+
+# Repo-root debug screenshots (from Playwright iteration sessions)
+/*.png
