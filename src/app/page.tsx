@@ -95,39 +95,67 @@ export default function HomePage() {
       <section className="mt-16 md:mt-20">
         <ul className="divide-y divide-gray-200 dark:divide-gray-800 border-y border-gray-200 dark:border-gray-800">
           {selected.map((p) => (
-            <li key={p.slug}>
+            <li
+              key={p.slug}
+              className="group relative flex items-start gap-5 py-5"
+            >
               <Link
                 href={`/projects/${p.slug}`}
-                className="group flex items-start gap-5 py-5"
-              >
-                <div className="w-20 h-12 sm:w-24 sm:h-14 flex-shrink-0 rounded overflow-hidden bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
-                  {p.metadata.thumbnail && (
-                    <img
-                      src={p.metadata.thumbnail}
-                      alt=""
-                      loading="lazy"
-                      className="w-full h-full object-cover"
-                    />
+                aria-label={p.metadata.title}
+                className="absolute inset-0"
+              />
+              <div className="w-20 h-12 sm:w-24 sm:h-14 flex-shrink-0 rounded overflow-hidden bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
+                {p.metadata.thumbnail && (
+                  <img
+                    src={p.metadata.thumbnail}
+                    alt=""
+                    loading="lazy"
+                    className="w-full h-full object-cover"
+                  />
+                )}
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-baseline gap-3">
+                  <span className="font-medium text-gray-900 dark:text-gray-100 group-hover:underline decoration-gray-300 dark:decoration-gray-700 underline-offset-4 truncate">
+                    {p.metadata.title}
+                  </span>
+                  {p.metadata.liveUrl && (
+                    <a
+                      href={p.metadata.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Open live site in new tab"
+                      className="relative z-10 flex-shrink-0 self-center text-gray-400 hover:text-gray-900 dark:text-gray-500 dark:hover:text-gray-100 transition-colors"
+                    >
+                      <svg
+                        aria-hidden
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="14"
+                        height="14"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M7 17 17 7" />
+                        <path d="M7 7h10v10" />
+                      </svg>
+                    </a>
                   )}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-baseline gap-3">
-                    <span className="font-medium text-gray-900 dark:text-gray-100 group-hover:underline decoration-gray-300 dark:decoration-gray-700 underline-offset-4 truncate">
-                      {p.metadata.title}
+                  {p.metadata.metric && (
+                    <span className="hidden sm:inline ml-auto font-mono text-xs italic text-gray-500 dark:text-gray-500 whitespace-nowrap">
+                      {p.metadata.metric}
                     </span>
-                    {p.metadata.metric && (
-                      <span className="hidden sm:inline ml-auto font-mono text-xs italic text-gray-500 dark:text-gray-500 whitespace-nowrap">
-                        {p.metadata.metric}
-                      </span>
-                    )}
-                  </div>
-                  {p.metadata.tagline && (
-                    <p className="mt-1 text-sm text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-2">
-                      {p.metadata.tagline}
-                    </p>
                   )}
                 </div>
-              </Link>
+                {p.metadata.tagline && (
+                  <p className="mt-1 text-sm text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-2">
+                    {p.metadata.tagline}
+                  </p>
+                )}
+              </div>
             </li>
           ))}
         </ul>

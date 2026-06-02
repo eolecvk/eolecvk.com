@@ -28,6 +28,7 @@ export function getAllProjects(): Project[] {
         featured: data.featured || false,
         category: data.category || '',
         metric: data.metric || '',
+        liveUrl: data.liveUrl || '',
       }
     })
     .sort((a, b) => {
