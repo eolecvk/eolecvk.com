@@ -25,11 +25,13 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       title: project.metadata.title,
       description: project.metadata.description,
       type: 'article',
+      images: [{ url: `/og/${params.slug}.png`, width: 1200, height: 630, alt: project.metadata.title }],
     },
     twitter: {
       card: 'summary_large_image',
       title: project.metadata.title,
       description: project.metadata.description,
+      images: [`/og/${params.slug}.png`],
     },
   }
 }
