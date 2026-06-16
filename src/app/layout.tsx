@@ -31,14 +31,12 @@ export const metadata: Metadata = {
     description: 'ML engineer building production systems for LLM and generative AI applications',
     type: 'website',
     url: 'https://eolecvk.com',
-    images: ['/screenshot.webp'],
     siteName: 'Eole Cervenka',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Eole Cervenka',
     description: 'ML engineer building production systems for LLM and generative AI applications',
-    images: ['/screenshot.webp'],
   },
 }
 
