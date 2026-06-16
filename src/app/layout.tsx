@@ -32,11 +32,13 @@ export const metadata: Metadata = {
     type: 'website',
     url: 'https://eolecvk.com',
     siteName: 'Eole Cervenka',
+    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'Eole Cervenka' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Eole Cervenka',
     description: 'ML engineer building production systems for LLM and generative AI applications',
+    images: ['/og.png'],
   },
 }
 
